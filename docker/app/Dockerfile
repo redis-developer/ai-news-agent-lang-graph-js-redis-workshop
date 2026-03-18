@@ -3,7 +3,7 @@ FROM node:24-alpine
 # Install ttyd, tmux, screen for shared sessions, and bash
 RUN apk add --no-cache ttyd tmux bash
 
-WORKDIR /app
+WORKDIR /news-agent
 
 # Copy scripts and config
 COPY start.sh /start.sh

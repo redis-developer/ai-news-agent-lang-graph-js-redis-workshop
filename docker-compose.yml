@@ -70,8 +70,8 @@ services:
       - AMS_URL=http://agent-memory-server:8000
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     volumes:
-      - ./code:/app
-      - /app/node_modules
+      - ./code:/news-agent
+      - /news-agent/node_modules
     depends_on:
       - redis
       - agent-memory-server
