@@ -1,0 +1,118 @@
+name: ai-news-agent-workshop
+
+services:
+  # Workbench
+  workbench:
+    image: nginx:alpine
+    container_name: news-agent-workbench
+    ports:
+      - '80:80'
+    volumes:
+      - ./workbench:/usr/share/nginx/html:ro
+      - ./workbench/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./workbench/proxy-params.conf:/etc/nginx/proxy-params.conf:ro
+    depends_on:
+      - docs
+      - vscode
+      - app
+      - redisinsight
+
+  # Documentation server (Docsify)
+  docs:
+    image: nginx:alpine
+    container_name: news-agent-docs
+    ports:
+      - '8081:80'
+    volumes:
+      - ./docs:/usr/share/nginx/html:ro
+
+  # VS Code in the browser (code-server)
+  # ─────────────────────────────────────────────────────────────────────────
+  # Security: code-server performs WebSocket origin checks (added in v4.10.1)
+  # to prevent cross-site WebSocket hijacking. When behind PS Portal:
+  #
+  # 1. The browser's Origin header = workbench URL (e.g., https://rl-s-labs-xyz.labs.ps-redis.com)
+  # 2. The Host header = VS Code URL (e.g., 8080-p-rl-s-labs-xyz.labs.ps-redis.com)
+  # 3. These don't match, so WebSockets are blocked (error 1006)
+  #
+  # Since PS Portal dynamically generates hostnames per VM, we cannot predict
+  # them. Using --trusted-origins "*" allows all origins through the check.
+  # This is safe because PS Portal itself provides the authentication layer.
+  # ─────────────────────────────────────────────────────────────────────────
+  vscode:
+    image: codercom/code-server:latest
+    container_name: news-agent-vscode
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./code:/home/coder/code
+      - vscode-data:/home/coder/.local/share/code-server
+    command: >-
+      --auth none
+      --bind-addr 0.0.0.0:8080
+      --disable-workspace-trust
+      --trusted-origins "*"
+      /home/coder/code
+
+  # App terminal with Node.js & vite
+  # restart: unless-stopped ensures the container restarts if someone types
+  # "exit" in the terminal, which would otherwise stop the tmux session
+  app:
+    build: ./docker/app
+    container_name: news-agent-app
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+      - '5173:5173'
+      - '7681:7681'
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - AMS_URL=http://agent-memory-server:8000
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./code:/app
+      - /app/node_modules
+    depends_on:
+      - redis
+      - agent-memory-server
+
+  # Redis Insight
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: news-agent-redisinsight
+    ports:
+      - '5540:5540'
+    environment:
+      - RI_PROXY_PATH=/redisinsight
+      - RI_REDIS_HOST=redis
+      - RI_REDIS_PORT=6379
+      - RI_REDIS_ALIAS=Workshop Redis
+    volumes:
+      - redisinsight-data:/data
+    depends_on:
+      - redis
+
+  # Redis
+  redis:
+    image: redis:latest
+    container_name: news-agent-redis
+    ports:
+      - '6379:6379'
+
+  # Agent Memory Server
+  agent-memory-server:
+    image: redislabs/agent-memory-server:latest
+    container_name: news-agent-ams
+    ports:
+      - '8000:8000'
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - AUTH_MODE=disabled
+      - LOG_LEVEL=DEBUG
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    depends_on:
+      - redis
+
+volumes:
+  vscode-data:
+  redisinsight-data:
