@@ -71,7 +71,6 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     volumes:
       - ./code:/news-agent
-      - /news-agent/node_modules
     depends_on:
       - redis
       - agent-memory-server

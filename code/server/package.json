@@ -14,7 +14,7 @@
     ".": "./dist/server.js"
   },
   "scripts": {
-    "dev": "nodemon --exec tsx --env-file=../.env src/server.ts"
+    "dev": "nodemon --exec tsx src/server.ts"
   },
   "dependencies": {
     "@langchain/core": "^1.1.17",

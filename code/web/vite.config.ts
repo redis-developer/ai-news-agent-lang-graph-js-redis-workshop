@@ -3,7 +3,7 @@ import { svelte } from '@sveltejs/vite-plugin-svelte'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
-export default defineConfig(() => {
+export default defineConfig(_ => {
   return {
     plugins: [svelte(), tailwindcss()],
     resolve: {
