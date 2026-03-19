@@ -1,31 +1,13 @@
 # Redis + LangGraph.js Workshop
 
-This repo will contian a hands-on workshop for building agentic AI applications using Redis and LangGraph.js. It is currently under development (i.e. not done) but there are some good working parts in here. They run and are complete. You can learn from if you want to stare down the code until it gives up the information you want.
+A hands-on workshop for building agentic AI applications using Redis and LangGraph.js. Build a news aggregator that fetches articles from RSS feeds, summarizes them, extracts named entities, generates embeddings, and stores everything in Redis. Then search, chat, and generate news briefs — all powered by AI.
 
-The application itself is a news aggregator that fetches articles from RSS feeds and does all the AI things with them. It allows you to search them using both strucuted and semantic search, chat about them using a chatbot, and generate a new brief covering recent stories.
-
-It's all written in TypeScript and uses the latest, greatest, and most updatest AI tools from Redis.
-
-## What's Covered
-
-The application demonstrates key patterns for building AI-powered systems:
+## What You'll Learn
 
 - **Ingestion workflows** — Fetch RSS feeds, summarize articles, extract named entities, generate embeddings, and store everything in Redis
 - **Hybrid search** — Combine vector similarity with structured filtering using Redis Query Engine
 - **Tool-enabled RAG** — Build a chatbot that retrieves and reasons over news articles
 - **Agent memory** — Give your agent short-term and long-term memory with Redis Agent Memory Server
-
-## Current State
-
-The `solution/` folder contains a **fully working implementation**. It includes:
-
-- **Express API server** with LangGraph.js workflows for ingestion, chat, and news briefings
-- **Svelte 5 frontend** for browsing articles, chatting, and generating personalized news briefs
-- **Docker Compose setup** for running the entire stack with one command
-
-This makes an excellent demo for showcasing Redis + LangGraph.js capabilities.
-
-👉 **[See the solution README for setup instructions](solution/README.md)**
 
 ## Tech Stack
 
@@ -36,11 +18,61 @@ This makes an excellent demo for showcasing Redis + LangGraph.js capabilities.
 - **[Express](https://expressjs.com/)** — Node.js API server
 - **[OpenAI](https://openai.com/)** — LLM and embedding models
 
+## Prerequisites
+
+- **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** — For running the workbench and all services
+- **[OpenAI API key](https://platform.openai.com/api-keys)** — For LLM and embedding models
+
+## Getting Started
+
+1. Clone the repo:
+
+   ```bash
+   git clone git@github.com:redis-developer/ai-news-agent-lang-graph-js-redis-workshop.git
+   cd ai-news-agent-workshop
+   ```
+
+2. Copy the sample environment file and add your OpenAI API key:
+
+   ```bash
+   cp .env.sample .env
+   ```
+
+   Then edit `.env` and replace `your-key-here` with your actual key.
+
+3. Start the workbench:
+
+   ```bash
+   ./start.sh
+   ```
+
+4. Open http://localhost in your browser.
+
+The workbench provides everything you need in a single browser tab:
+
+| Panel             | Description                            |
+| ----------------- | -------------------------------------- |
+| **Instructions**  | Step-by-step workshop guide (sidebar)  |
+| **Code**          | VS Code editor for writing code        |
+| **App**           | The news agent application             |
+| **Terminal**      | Shared terminal running the dev server |
+| **Redis Insight** | Browse and inspect your Redis data     |
+
+## Stopping the Workbench
+
+```bash
+docker compose down
+```
+
+To also remove stored data (Redis, Redis Insight, VS Code settings):
+
+```bash
+docker compose down -v
+```
+
 ## Talk Abstracts
 
 The `abstracts/` folder contains two versions of the talk abstract:
 
 - **CONFERENCE-ABSTRACT.md** — A version for developer conferences
 - **CORPORATE-ABSTRACT.md** — A version for corporate/enterprise events
-
-I have a favorite here.
