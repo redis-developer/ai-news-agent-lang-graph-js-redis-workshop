@@ -1,5 +1,7 @@
 # Redis + LangGraph.js Workshop
 
+> ⚠️ **Work in Progress** — This workshop is under active development and is not ready for use yet. Things will change, break, and move around.
+
 A hands-on workshop for building agentic AI applications using Redis and LangGraph.js. Build a news aggregator that fetches articles from RSS feeds, summarizes them, extracts named entities, generates embeddings, and stores everything in Redis. Then search, chat, and generate news briefs — all powered by AI.
 
 ## What You'll Learn
