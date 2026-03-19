@@ -10,7 +10,7 @@ services:
     volumes:
       - ./workbench:/usr/share/nginx/html:ro
       - ./workbench/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./workbench/proxy-params.conf:/etc/nginx/proxy-params.conf:ro
+      - ./workbench/proxy:/etc/nginx/proxy:ro
     depends_on:
       - docs
       - vscode
