@@ -1,13 +1,13 @@
-# Redis Workshop Docs Template
+# Redis + LangGraph.js Workshop
 
-> Your hands-on guide to building amazing AI-powered apps with Redis
+> Build an AI-powered news agent with Redis and LangGraph.js
 
-- Interactive coding environment
-- Step-by-step instructions
-- Real-world examples
+- LangGraph.js workflows for ingestion, chat, and briefs
+- Redis Search for hybrid vector + structured queries
+- Agent Memory Server for short and long-term memory
 
-[Get Started](README.md)
+[Get Started](home.md)
 
 <!-- background color -->
-![color](#091a23)
 
+![color](#091a23)
