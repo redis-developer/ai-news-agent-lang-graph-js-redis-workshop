@@ -13,6 +13,14 @@ A LangGraph.js workflow is a directed graph. Data flows through it like this:
 
 The graph runs each node in order, merging each node's returned updates back into the shared state. When all nodes have run, the final state is your result.
 
+Here's what the graph you'll build in this section looks like:
+
+```mermaid
+graph LR
+    START([START]) --> text-extractor
+    text-extractor --> END([END])
+```
+
 ## Files You'll Work In
 
 All of the code for this step lives in the `server/src/workflows/ingestion/` directory:

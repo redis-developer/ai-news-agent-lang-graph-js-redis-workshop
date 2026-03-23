@@ -2,6 +2,11 @@
 
 Your graph has one node. Now you'll add a second—a summarizer that reads the extracted text and produces a concise summary. This introduces the key concept of **sequential chaining**: connecting one node's output to another node's input through shared state.
 
+```mermaid
+graph LR
+    START([START]) --> text-extractor -.-> summarizer:::missing -.-> END([END])
+```
+
 ## Files You'll Work In
 
 | File                         | What It Does                              |
@@ -74,7 +79,12 @@ Notice this follows the same pattern as the text extractor: read from state, cal
 
 ## Wiring It Into the Graph
 
-Open `workflow.ts`. You need to add the summarizer node and change the edges so the graph runs text-extractor → summarizer → END instead of text-extractor → END.
+Open `workflow.ts`. You need to add the summarizer node and change the edges so the graph looks like this:
+
+```mermaid
+graph LR
+    START([START]) --> text-extractor --> summarizer --> END([END])
+```
 
 First, add the node after the text-extractor node:
 
