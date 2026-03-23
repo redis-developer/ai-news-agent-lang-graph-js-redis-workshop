@@ -1,5 +1,7 @@
 import { StateGraph, START, END } from '@langchain/langgraph'
 
+import { ArticleData, FeedItem } from '@services'
+
 import {
   textExtractor,
   summarizer,
@@ -39,5 +41,12 @@ graph.addEdge('embedder', 'article-assembler')
 
 graph.addEdge('article-assembler', END)
 
-/* Compile and export the workflow */
-export const articleWorkflow = graph.compile()
+/* Compile the workflow */
+const articleWorkflow = graph.compile()
+
+/* Export a function to run the workflow */
+export async function invokeArticleWorkflow(feedItem: FeedItem): Promise<ArticleData | null> {
+  const result = await articleWorkflow.invoke({ feedItem })
+  return result.article ?? null
+  // return null
+}

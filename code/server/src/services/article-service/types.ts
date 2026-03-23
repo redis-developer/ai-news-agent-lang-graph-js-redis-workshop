@@ -24,6 +24,8 @@ export type Article = {
   embedding: number[]
 }
 
+export type ArticleData = Omit<Article, 'id'>
+
 export type SearchCriteria = {
   sources?: string[]
   startDate?: number // Unix timestamp (seconds)

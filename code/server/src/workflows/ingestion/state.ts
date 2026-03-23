@@ -1,5 +1,5 @@
 import { Annotation } from '@langchain/langgraph'
-import type { Article, FeedItem } from '@services'
+import type { ArticleData, FeedItem } from '@services'
 
 export const ArticleAnnotation = Annotation.Root({
   feedItem: Annotation<FeedItem>(),
@@ -22,7 +22,7 @@ export const ArticleAnnotation = Annotation.Root({
     reducer: (prev, next) => [...prev, ...next]
   }),
   embedding: Annotation<number[]>(),
-  article: Annotation<Omit<Article, 'id'>>()
+  article: Annotation<ArticleData>()
 })
 
 export type ArticleState = typeof ArticleAnnotation.State

@@ -1,5 +1,5 @@
 import { fetchFeeds, saveArticle, log, Article } from '@services'
-import { articleWorkflow } from './workflow.js'
+import { invokeArticleWorkflow } from './workflow.js'
 
 export type ArticleSummary = {
   title: string
@@ -36,20 +36,20 @@ export async function ingest(limit?: number): Promise<IngestResult> {
     log('ingest', 'Processing article:', feedItem.title)
 
     /* Process the feed item through the workflow */
-    const result = await articleWorkflow.invoke({ feedItem })
+    const article = await invokeArticleWorkflow(feedItem)
 
     /* Skip if no article was produced */
-    if (!result.article) {
+    if (!article) {
       log('ingest', 'No article produced, skipping')
       continue
     }
 
     /* Save the article to Redis */
-    await saveArticle(result.article)
+    await saveArticle(article)
     log('ingest', 'Saved article to Redis')
 
     /* Add the article to the list of articles to be returned */
-    articles.push(result.article)
+    articles.push(article)
   }
 
   log('ingest', 'Completed processing', articles.length, 'articles')

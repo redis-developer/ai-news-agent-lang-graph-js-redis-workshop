@@ -1,5 +1,5 @@
 import type { ArticleState } from '../state.js'
-import type { Article } from '@services'
+import type { Article, ArticleData } from '@services'
 import { log } from '@services'
 
 export async function articleAssembler(state: ArticleState): Promise<Partial<ArticleState>> {
@@ -20,7 +20,7 @@ export async function articleAssembler(state: ArticleState): Promise<Partial<Art
   if (!embedding || embedding.length === 0) throw new Error('No embedding to assemble')
 
   /* Assemble the final article (id is generated on save) */
-  const article: Omit<Article, 'id'> = {
+  const article: ArticleData = {
     title: feedItem.title,
     link: feedItem.link,
     publicationDate: Math.floor(new Date(feedItem.pubDate).getTime() / 1000),

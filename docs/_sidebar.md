@@ -4,13 +4,12 @@
   - [Useful Links](/reference/links.md)
 
 - Stage 1: Feed Ingestion
-  - [Overview](/ingestion/overview.md)
-  - [Your First Node](/ingestion/first-node.md)
-  - [Graph State](/ingestion/graph-state.md)
-  - [Multiple Nodes & Edges](/ingestion/nodes-and-edges.md)
-  - [Fan-Out: Parallel Processing](/ingestion/fan-out.md)
-  - [Fan-In: Assembling Results](/ingestion/fan-in.md)
-  - [Storing Articles in Redis](/ingestion/storing-in-redis.md)
+  - [Overview](/ingestion/0-overview.md)
+  - [The Simplest Graph: Text Extraction](/ingestion/1-simplest-graph.md)
+  - [Multi-Node Graphs: Summarization](/ingestion/2-multi-node-graph.md)
+  - [Fan-Out: Parallel Processing](/ingestion/3-fan-out.md)
+  - [Fan-In: Assembling Results](/ingestion/4-fan-in.md)
+  - [Storing Articles in Redis](/ingestion/5-storing-in-redis.md)
 
 - Stage 2: Article Search
   - [Overview](/search/overview.md)

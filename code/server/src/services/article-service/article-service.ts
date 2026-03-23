@@ -3,7 +3,7 @@ import { createHash } from 'crypto'
 import { SCHEMA_FIELD_TYPE, SCHEMA_VECTOR_FIELD_ALGORITHM } from 'redis'
 
 import { fetchEmbeddingDims, fetchEmbedder, fetchRedisConnection } from '@adapters'
-import type { Article, SearchCriteria, SearchResponse } from './types.js'
+import type { Article, ArticleData, SearchCriteria, SearchResponse } from './types.js'
 
 const KEY_PREFIX = 'news:aggregator:article:'
 const INDEX_NAME = 'news:aggregator:article:index'
@@ -21,7 +21,7 @@ export async function articleExists(link: string): Promise<boolean> {
   return exists === 1
 }
 
-export async function saveArticle(article: Omit<Article, 'id'>): Promise<void> {
+export async function saveArticle(article: ArticleData): Promise<void> {
   const id = generateArticleId(article.link)
   const key = `${KEY_PREFIX}${id}`
   await redis.json.set(key, '$', { id, ...article } as any)
