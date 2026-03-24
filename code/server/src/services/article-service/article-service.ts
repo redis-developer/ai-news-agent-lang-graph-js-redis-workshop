@@ -25,8 +25,7 @@ export async function saveArticle(article: ArticleData): Promise<Article> {
   const id = generateArticleId(article.link)
   const articleWithId: Article = { id, ...article }
 
-  const key = `${KEY_PREFIX}${id}`
-  await redis.json.set(key, '$', articleWithId as any)
+  // TODO: Build the key and save the article to Redis
 
   return articleWithId
 }

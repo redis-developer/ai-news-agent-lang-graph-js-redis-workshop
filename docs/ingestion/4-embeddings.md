@@ -68,9 +68,28 @@ const embeddingModel = fetchEmbedder()
 
 This is `fetchEmbedder()`, not `fetchLLM()`. You saw it in `adapters/model-adapter.ts` back in step 1 if you want to look again. Embedding models are a different kind of model—they don't generate text, they generate vectors.
 
+### Pulling Data from State
+
+In the `embedder` function, start by destructuring the data from state and uncommenting the guard clauses:
+
+```typescript
+/* Extract feedItem and summary from the state */
+const { feedItem, summary } = state
+```
+
+Then uncomment the guard clauses and logging:
+
+```typescript
+log('Embedder', 'Generating embedding')
+
+/* Make sure we have the required data */
+if (!feedItem) throw new Error('No feed item to process')
+if (!summary) throw new Error('No summary to embed')
+```
+
 ### Generating the Embedding
 
-In the `embedder` function, combine the title and summary into a single string right after the guard clause:
+After the guard clauses, combine the title and summary into a single string:
 
 ```typescript
 /* Combine title and summary for embedding */

@@ -69,25 +69,18 @@ Each field in the annotation defines a slot in the state object. When a node ret
 
 A node is just an async function. It takes the current state as input and returns a partial state update—an object with only the fields it wants to change.
 
-Open `agents/text-extractor-agent.ts`. You'll see that the function structure is already there—imports, the function signature, and a fallback for when there's no HTML. But the main logic is missing. Right now, it just returns an empty object:
+Open `agents/text-extractor-agent.ts`. You'll see that the function structure is already there—imports, the function signature, and some commented-out guard clauses and logging. But the main logic is missing. Right now, it just returns an empty object:
 
 ```typescript
 export async function textExtractor(state: ArticleState): Promise<Partial<ArticleState>> {
   // TODO: Extract the feed item from the state
-  const feedItem = null
 
-  /* Make sure we have a feed item */
-  if (!feedItem) throw new Error('No feed item to process')
+  // /* Make sure we have a feed item */
+  // if (!feedItem) throw new Error('No feed item to process')
 
-  log('Text Extractor', 'Extracting article text')
+  // ...commented-out guard clauses and logging...
 
-  /* If we don't have HTML, use the RSS content. Nothing to do here. */
-  if (!feedItem.html) {
-    log('Text Extractor', 'No HTML available, using RSS content')
-    return { content: feedItem.content }
-  }
-
-  // TODO: Extract text, send to LLM, return content
+  // TODO: Extract text from HTML, send to LLM, return content
 
   return {}
 }
@@ -97,14 +90,33 @@ A few things to notice about the function signature: `(state: ArticleState) => P
 
 ### Pulling Data from State
 
-The first thing any node needs to do is pull the data it needs from state. Replace the `const feedItem = null` line with a destructure from state:
+The first thing any node needs to do is pull the data it needs from state. Add a destructure from state right after the first TODO comment:
 
 ```typescript
 /* Extract the feed item from the state */
 const { feedItem } = state
 ```
 
-This grabs the `feedItem` that was passed in when the graph was invoked. The rest of the function already uses `feedItem`, so once you make this change, the guard clause and the HTML check will work correctly.
+This grabs the `feedItem` that was passed in when the graph was invoked.
+
+### Uncommenting the Guard Clauses
+
+Now uncomment the guard clause, logging, and HTML check that are already in the file. These handle the case where there's no feed item, and the shortcut when there's no HTML to process:
+
+```typescript
+/* Make sure we have a feed item */
+if (!feedItem) throw new Error('No feed item to process')
+
+log('Text Extractor', 'Extracting article text')
+
+/* If we don't have HTML, use the RSS content. Nothing to do here. */
+if (!feedItem.html) {
+  log('Text Extractor', 'No HTML available, using RSS content')
+  return { content: feedItem.content }
+}
+```
+
+Once you've added the destructure and uncommented these lines, the function can pull `feedItem` from state, validate it, and handle the no-HTML case.
 
 There's also an `extractTextFromHtml` helper function at the bottom of the file. It uses the `html-to-text` library to strip HTML down to plain text—removing images, scripts, and styles while preserving links. We could use an LLM to remove all the HTML instead, but a library is faster and cheaper. Regardless, you won't need to change it this function.
 
@@ -167,7 +179,7 @@ Calling `llm.invoke(prompt)` sends the prompt to the configured LLM and returns 
 
 ### Returning the Result
 
-Finally, add some logging so you can see the token savings from raw HTML to clean text to extracted content, and change the return statement to return the extracted content:
+Finally, uncomment the logging at the bottom of the function so you can see the token savings from raw HTML to clean text to extracted content, and change the return statement to return the extracted content:
 
 ```typescript
 /* Log the token counts to show the massive savings */

@@ -5,41 +5,29 @@ import type { ArticleState } from '../state.js'
 import { fetchLLM } from '@adapters'
 import { log } from '@services'
 
-/* Schema for topic classification output */
-const topicsSchema = z.object({
-  topics: z.array(z.string()).describe('Broad topics or categories for the article')
-})
+// TODO: Define the schema for topic classification output
 
-/* Create the LLM instance with structured output */
-const llm = fetchLLM().withStructuredOutput(topicsSchema)
+/* Create the LLM instance */
+const llm = fetchLLM()
 
 export async function topicClassifier(state: ArticleState): Promise<Partial<ArticleState>> {
-  /* Extract the feed item and content from the state */
-  const { feedItem, content } = state
+  // TODO: Extract the feed item and content from the state
 
-  log('Topic Classifier', 'Extracting topics')
+  // log('Topic Classifier', 'Extracting topics')
 
-  /* Make sure we have the required data */
-  if (!feedItem) throw new Error('No feed item to process')
-  if (!content) throw new Error('No content to classify')
+  // /* Make sure we have the required data */
+  // if (!feedItem) throw new Error('No feed item to process')
+  // if (!content) throw new Error('No content to classify')
 
-  /* Build the prompt and call the LLM with structured output */
-  const prompt = buildPrompt(feedItem.title, content)
-  const result = await llm.invoke(prompt)
+  // TODO: Build the prompt, call the LLM, and return the topics
 
-  /* Log the extracted topics */
-  log('Topic Classifier', 'Extracted topics:', result.topics.join(', '))
+  // /* Log the extracted topics */
+  // log('Topic Classifier', 'Extracted topics:', result.topics.join(', '))
 
-  return { topics: result.topics }
+  return {}
 }
 
 function buildPrompt(title: string, content: string): string {
-  return dedent`
-    Extract 1-3 broad topics or categories for the following news article.
-    Topics should be general categories like "Technology", "Politics", "Science", "Business", etc.
-    You can also use more specific topics like "Artificial Intelligence", "Climate Change", "Space Exploration", etc.
-
-    Title: ${title}
-
-    Article: ${content}`
+  // TODO: Write the prompt
+  return ''
 }

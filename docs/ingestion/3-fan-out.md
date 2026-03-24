@@ -73,7 +73,7 @@ For our array fields, the default and reducer together ensure they start empty a
 
 The topic classifier extracts broad topics like "Technology" or "Politics" from the article.
 
-Open `agents/topic-classifier-agent.ts`. This node introduces a new concept: **structured output**. Instead of getting free-form text back from the LLM, you can get validated JSON that matches a schema you define. These schemas are defined using [Zod](https://zod.dev/), a TypeScript-first schema validation library.
+Open `agents/topic-classifier-agent.ts`. Like the previous nodes, you'll see TODOs and commented-out guard clauses and logging. This node also introduces a new concept: **structured output**. Instead of getting free-form text back from the LLM, you can get validated JSON that matches a schema you define. These schemas are defined using [Zod](https://zod.dev/), a TypeScript-first schema validation library.
 
 ### Defining the Schema
 
@@ -122,7 +122,24 @@ Notice the prompt doesn't mention JSON, schemas, or output format—it just desc
 
 ### Calling the LLM
 
-In the `topicClassifier` function, after the guard clauses, add the LLM call. Note that `result` is already a parsed object the matches the schema. It has a `topics` property that contains an array of string. We can just log it and return it:
+In the `topicClassifier` function, start by pulling the data you need from state and uncommenting the guard clauses:
+
+```typescript
+/* Extract the feed item and content from the state */
+const { feedItem, content } = state
+```
+
+Then uncomment the guard clauses and logging:
+
+```typescript
+log('Topic Classifier', 'Extracting topics')
+
+/* Make sure we have the required data */
+if (!feedItem) throw new Error('No feed item to process')
+if (!content) throw new Error('No content to classify')
+```
+
+After the guard clauses, add the LLM call. Note that `result` is already a parsed object that matches the schema. It has a `topics` property that contains an array of strings. We can just log it and return it:
 
 ```typescript
 /* Build the prompt and call the LLM with structured output */
@@ -139,7 +156,7 @@ return { topics: result.topics }
 
 The entity extractor pulls named entities from the article and categorizes them into people, organizations, and locations.
 
-Open `agents/entity-extractor-agent.ts`.
+Open `agents/entity-extractor-agent.ts`. Same pattern—TODOs and commented-out guards.
 
 ### Defining the Schema
 
@@ -180,9 +197,28 @@ function buildPrompt(title: string, content: string): string {
 }
 ```
 
+### Pulling Data from State
+
+Same as the topic classifier—destructure the data and uncomment the guards:
+
+```typescript
+/* Extract the feed item and content from the state */
+const { feedItem, content } = state
+```
+
+Then uncomment the guard clauses and logging:
+
+```typescript
+log('Entity Extractor', 'Extracting named entities')
+
+/* Make sure we have the required data */
+if (!feedItem) throw new Error('No feed item to process')
+if (!content) throw new Error('No content to extract entities from')
+```
+
 ### Calling the LLM
 
-Finally, the LLM call. This time the result has three properties which match the three properties on the state. Up until now, every node has returned a single property—`{ content }`, `{ summary }`, `{ topics: result.topics }`. A node can return as many state properties as it wants in one object. LangGraph.js merges them all into the state, applying reducers where defined:
+Now the LLM call. This time the result has three properties which match the three properties on the state. Up until now, every node has returned a single property—`{ content }`, `{ summary }`, `{ topics: result.topics }`. A node can return as many state properties as it wants in one object. LangGraph.js merges them all into the state, applying reducers where defined:
 
 ```typescript
 /* Build the prompt and call the LLM with structured output */

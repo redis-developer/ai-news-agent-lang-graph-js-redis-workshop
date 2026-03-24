@@ -3,43 +3,22 @@ import type { Article, ArticleData } from '@services'
 import { log } from '@services'
 
 export async function articleAssembler(state: ArticleState): Promise<Partial<ArticleState>> {
-  /* Extract all the data from the state */
-  const { feedItem, content, summary, topics, people, organizations, locations, embedding } = state
+  // TODO: Destructure all fields from state
 
   log('Article Assembler', 'Assembling final article')
-  log('Article Assembler', 'State check - embedding:', embedding ? `${embedding.length} dimensions` : 'undefined')
+  // log('Article Assembler', 'State check - embedding:', embedding ? `${embedding.length} dimensions` : 'undefined')
 
-  /* Make sure we have all the required data */
-  if (!feedItem) throw new Error('No feed item to assemble')
-  if (!content) throw new Error('No content to assemble')
-  if (!summary) throw new Error('No summary to assemble')
-  if (!topics || topics.length === 0) throw new Error('No topics to assemble')
-  if (!people) throw new Error('No people to assemble')
-  if (!organizations) throw new Error('No organizations to assemble')
-  if (!locations) throw new Error('No locations to assemble')
-  if (!embedding || embedding.length === 0) throw new Error('No embedding to assemble')
+  // /* Make sure we have all the required data */
+  // if (!feedItem) throw new Error('No feed item to assemble')
+  // if (!content) throw new Error('No content to assemble')
+  // if (!summary) throw new Error('No summary to assemble')
+  // if (!topics || topics.length === 0) throw new Error('No topics to assemble')
+  // if (!people) throw new Error('No people to assemble')
+  // if (!organizations) throw new Error('No organizations to assemble')
+  // if (!locations) throw new Error('No locations to assemble')
+  // if (!embedding || embedding.length === 0) throw new Error('No embedding to assemble')
 
-  /* Assemble the final article (id is generated on save) */
-  const article: ArticleData = {
-    title: feedItem.title,
-    link: feedItem.link,
-    publicationDate: Math.floor(new Date(feedItem.pubDate).getTime() / 1000),
-    source: {
-      title: feedItem.feedTitle,
-      link: feedItem.feedLink
-    },
-    content: content,
-    summary: summary,
-    topics: topics,
-    namedEntities: {
-      people: people,
-      organizations: organizations,
-      locations: locations
-    },
-    embedding: embedding
-  }
+  // TODO: Assemble the final article and return it
 
-  log('Article Assembler', 'Article assembled successfully')
-
-  return { article }
+  return {}
 }

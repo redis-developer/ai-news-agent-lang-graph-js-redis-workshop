@@ -2,27 +2,22 @@ import type { ArticleState } from '../state.js'
 import { fetchEmbedder } from '@adapters'
 import { log } from '@services'
 
-const embeddingModel = fetchEmbedder()
+// TODO: Create the embedding model instance
 
 export async function embedder(state: ArticleState): Promise<Partial<ArticleState>> {
-  /* Extract all the data from the state */
-  const { feedItem, summary } = state
+  // TODO: Extract feedItem and summary from the state
 
-  log('Embedder', 'Generating embedding')
+  // log('Embedder', 'Generating embedding')
 
-  /* Make sure we have the required data */
-  if (!feedItem) throw new Error('No feed item to process')
-  if (!summary) throw new Error('No summary to embed')
+  // /* Make sure we have the required data */
+  // if (!feedItem) throw new Error('No feed item to process')
+  // if (!summary) throw new Error('No summary to embed')
 
-  /* Combine title and summary for embedding */
-  const textToEmbed = `${feedItem.title}\n\n${summary}`
+  // TODO: Combine title and summary, generate embedding, and return it
 
-  log('Embedder', 'Embedding text:', textToEmbed.length, 'characters')
+  // log('Embedder', 'Embedding text:', textToEmbed.length, 'characters')
 
-  /* Generate the embedding */
-  const embedding = await embeddingModel.embedQuery(textToEmbed)
+  // log('Embedder', 'Generated embedding:', embedding.length, 'dimensions')
 
-  log('Embedder', 'Generated embedding:', embedding.length, 'dimensions')
-
-  return { embedding }
+  return {}
 }

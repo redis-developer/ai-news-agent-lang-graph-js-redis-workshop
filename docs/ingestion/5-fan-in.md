@@ -40,7 +40,7 @@ const { feedItem, content, summary, topics, people, organizations, locations, em
 
 ### Guard Clauses
 
-Every piece must be present. If anything is missing, the article can't be assembled:
+Every piece must be present. If anything is missing, the article can't be assembled. Uncomment the guard clauses that are already in the file:
 
 ```typescript
 if (!feedItem) throw new Error('No feed item to assemble')

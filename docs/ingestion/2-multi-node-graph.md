@@ -32,7 +32,28 @@ Now any node can write to `state.summary` and any subsequent node can read from 
 
 ## Writing the Summarizer Node
 
-Open `agents/summarizer-agent.ts`. Like the text extractor, the function structure is already there—it pulls `content` from state, handles the case where there's nothing to summarize, and returns an empty object. You need to fill in the LLM call.
+Open `agents/summarizer-agent.ts`. Like the text extractor, the function structure is already there—imports, the function signature, and some commented-out guard clauses and logging. You need to pull data from state, uncomment the guards, and fill in the LLM call.
+
+### Pulling Data from State
+
+Add a destructure at the top of the `summarizer` function to grab `content` from state:
+
+```typescript
+/* Extract content from state */
+const { content } = state
+```
+
+Then uncomment the guard clause and logging that are already in the file:
+
+```typescript
+log('Summarizer', 'Generating summary')
+
+/* If we don't have content, return an empty summary */
+if (!content) {
+  log('Summarizer', 'No content available to summarize. Returning empty summary.')
+  return { summary: '' }
+}
+```
 
 ### Writing the Prompt
 
@@ -52,7 +73,7 @@ function buildPrompt(content: string): string {
 
 ### Calling the LLM
 
-Back in the `summarizer` function, after the content check, add the LLM call. This follows the same pattern as the text extractor—build a prompt, invoke the LLM, pull out the response:
+Back in the `summarizer` function, after the guard clause, add the LLM call. This follows the same pattern as the text extractor—build a prompt, invoke the LLM, pull out the response:
 
 ```typescript
 /* Build the prompt, send it to the LLM, and get its response */
@@ -63,7 +84,7 @@ const summary = response.content as string
 
 ### Returning the Result
 
-Add some logging and change the return statement to return the summary:
+Uncomment the logging at the bottom of the function and change the return statement to return the summary:
 
 ```typescript
 /* Log the token counts to show the reduction */
