@@ -120,9 +120,9 @@ function buildPrompt(title: string, content: string): string {
 
 Notice the prompt doesn't mention JSON, schemas, or output format—it just describes _what_ to extract. The `.withStructuredOutput()` call handles the _how_, telling the LLM to return data matching the schema. The prompt focuses on intent; the schema focuses on shape; the description in the schema provides the intent of the shape.
 
-### Calling the LLM
+### Pulling Data from State
 
-In the `topicClassifier` function, start by pulling the data you need from state and uncommenting the guard clauses:
+In the `topicClassifier` function, start by pulling the data you need from state:
 
 ```typescript
 /* Extract the feed item and content from the state */
@@ -139,14 +139,19 @@ if (!feedItem) throw new Error('No feed item to process')
 if (!content) throw new Error('No content to classify')
 ```
 
-After the guard clauses, add the LLM call. Note that `result` is already a parsed object that matches the schema. It has a `topics` property that contains an array of strings. We can just log it and return it:
+### Calling the LLM
+
+After the guard clauses, add the LLM call. Note that `result` is already a parsed object that matches the schema. It has a `topics` property that contains an array of strings:
 
 ```typescript
 /* Build the prompt and call the LLM with structured output */
 const prompt = buildPrompt(feedItem.title, content)
 const result = await llm.invoke(prompt)
+```
 
-/* Log the extracted topics */
+Now uncomment the logging at the bottom of the function and add the return:
+
+```typescript
 log('Topic Classifier', 'Extracted topics:', result.topics.join(', '))
 
 return { topics: result.topics }
@@ -224,8 +229,11 @@ Now the LLM call. This time the result has three properties which match the thre
 /* Build the prompt and call the LLM with structured output */
 const prompt = buildPrompt(feedItem.title, content)
 const namedEntities = await llm.invoke(prompt)
+```
 
-/* Log the extracted entities */
+Uncomment the logging at the bottom of the function and add the return:
+
+```typescript
 log('Entity Extractor', 'Extracted named entities:')
 log('Entity Extractor', '  People:', namedEntities.people.join(', ') || 'none')
 log('Entity Extractor', '  Organizations:', namedEntities.organizations.join(', ') || 'none')

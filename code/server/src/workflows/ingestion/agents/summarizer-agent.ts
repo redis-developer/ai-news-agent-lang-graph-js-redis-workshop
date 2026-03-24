@@ -4,11 +4,12 @@ import type { ArticleState } from '../state.js'
 import { fetchLLM, fetchTokenCounter } from '@adapters'
 import { log } from '@services'
 
+/* Create the LLM instance */
 const llm = fetchLLM()
 const tokenCounter = fetchTokenCounter()
 
 export async function summarizer(state: ArticleState): Promise<Partial<ArticleState>> {
-  // TODO: Extract content from state
+  // TODO: Extract the content from the state
 
   // log('Summarizer', 'Generating summary')
 

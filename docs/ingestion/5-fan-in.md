@@ -30,12 +30,19 @@ The `article` field is already in the state from step 1—we just haven't used i
 
 Open `agents/article-assembler-agent.ts`. This node is different from everything you've built so far—it doesn't call an LLM or any model at all. It just reads from state and reshapes the data into the `ArticleData` type that the rest of the application expects.
 
-### Reading from State
+### Pulling Data from State
 
 The assembler needs everything. Destructure all the fields from state:
 
 ```typescript
 const { feedItem, content, summary, topics, people, organizations, locations, embedding } = state
+```
+
+Then uncomment the logging that's already in the file:
+
+```typescript
+log('Article Assembler', 'Assembling final article')
+log('Article Assembler', 'State check - embedding:', embedding ? `${embedding.length} dimensions` : 'undefined')
 ```
 
 ### Guard Clauses

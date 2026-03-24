@@ -5,7 +5,7 @@ import { log } from '@services'
 // TODO: Create the embedding model instance
 
 export async function embedder(state: ArticleState): Promise<Partial<ArticleState>> {
-  // TODO: Extract feedItem and summary from the state
+  // TODO: Extract the feed item and summary from the state
 
   // log('Embedder', 'Generating embedding')
 

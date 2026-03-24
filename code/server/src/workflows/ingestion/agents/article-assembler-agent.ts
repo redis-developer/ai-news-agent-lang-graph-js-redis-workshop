@@ -3,9 +3,9 @@ import type { Article, ArticleData } from '@services'
 import { log } from '@services'
 
 export async function articleAssembler(state: ArticleState): Promise<Partial<ArticleState>> {
-  // TODO: Destructure all fields from state
+  // TODO: Extract all fields from the state
 
-  log('Article Assembler', 'Assembling final article')
+  // log('Article Assembler', 'Assembling final article')
   // log('Article Assembler', 'State check - embedding:', embedding ? `${embedding.length} dimensions` : 'undefined')
 
   // /* Make sure we have all the required data */

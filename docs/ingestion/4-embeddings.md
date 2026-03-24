@@ -94,15 +94,19 @@ After the guard clauses, combine the title and summary into a single string:
 ```typescript
 /* Combine title and summary for embedding */
 const textToEmbed = `${feedItem.title}\n\n${summary}`
-
-log('Embedder', 'Embedding text:', textToEmbed.length, 'characters')
 ```
 
-Then generate the embedding and return it:
+Then generate the embedding:
 
 ```typescript
 /* Generate the embedding */
 const embedding = await embeddingModel.embedQuery(textToEmbed)
+```
+
+Now uncomment the logging at the bottom of the function and add the return:
+
+```typescript
+log('Embedder', 'Embedding text:', textToEmbed.length, 'characters')
 
 log('Embedder', 'Generated embedding:', embedding.length, 'dimensions')
 
