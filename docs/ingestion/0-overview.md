@@ -6,6 +6,19 @@ In this stage, you'll build a LangGraph.js workflow that takes raw RSS feed item
 
 The ingestion workflow does a lot with each feed item: it extracts clean text from the HTML, generates a summary, classifies topics, extracts named entities (people, organizations, locations), and creates a vector embedding. These all get assembled into a single article and saved to Redis.
 
+Here's the final graph you'll build:
+
+```mermaid
+graph LR
+    START([START]) --> text-extractor --> summarizer --> embedder
+    text-extractor --> topic-classifier
+    text-extractor --> entity-extractor
+    topic-classifier --> article-assembler
+    entity-extractor --> article-assembler
+    embedder --> article-assembler
+    article-assembler --> END([END])
+```
+
 You'll build this incrementally—starting with the simplest possible graph and adding complexity step by step.
 
 ## What You'll Learn

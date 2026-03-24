@@ -8,25 +8,26 @@
   - [The Simplest Graph: Text Extraction](/ingestion/1-simplest-graph.md)
   - [Multi-Node Graphs: Summarization](/ingestion/2-multi-node-graph.md)
   - [Fan-Out: Parallel Processing](/ingestion/3-fan-out.md)
-  - [Fan-In: Assembling Results](/ingestion/4-fan-in.md)
-  - [Storing Articles in Redis](/ingestion/5-storing-in-redis.md)
+  - [Embeddings](/ingestion/4-embeddings.md)
+  - [Fan-In: Assembling Results](/ingestion/5-fan-in.md)
+  - [Storing Articles in Redis](/ingestion/6-storing-in-redis.md)
 
 - Stage 2: Article Search
-  - [Overview](/search/overview.md)
+  - [Overview](/search/0-overview.md)
   - [Creating a Search Index](/search/creating-an-index.md)
   - [Structured Search with Tags](/search/structured-search.md)
   - [Vector Search](/search/vector-search.md)
   - [Hybrid Search](/search/hybrid-search.md)
 
 - Stage 3: Chatbot
-  - [Overview](/chatbot/overview.md)
+  - [Overview](/chatbot/0-overview.md)
   - [Introducing AMS](/chatbot/introducing-ams.md)
   - [Enriching the Prompt](/chatbot/enriching-the-prompt.md)
   - [Tools & the ReAct Agent](/chatbot/tools-and-react-agent.md)
   - [Saving Memory](/chatbot/saving-memory.md)
 
 - Stage 4: Brief Generator
-  - [Overview](/brief/overview.md)
+  - [Overview](/brief/0-overview.md)
   - [Fetching Articles & Memories](/brief/fetching-data.md)
   - [Generating the Brief](/brief/generating-the-brief.md)
   - [Memory Beyond Chatbots](/brief/memory-beyond-chatbots.md)

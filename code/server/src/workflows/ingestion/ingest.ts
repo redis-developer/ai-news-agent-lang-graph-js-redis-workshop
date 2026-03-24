@@ -45,11 +45,11 @@ export async function ingest(limit?: number): Promise<IngestResult> {
     }
 
     /* Save the article to Redis */
-    await saveArticle(article)
+    const articleWithId = await saveArticle(article)
     log('ingest', 'Saved article to Redis')
 
     /* Add the article to the list of articles to be returned */
-    articles.push(article)
+    articles.push(articleWithId)
   }
 
   log('ingest', 'Completed processing', articles.length, 'articles')

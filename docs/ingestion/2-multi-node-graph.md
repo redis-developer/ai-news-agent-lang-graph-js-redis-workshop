@@ -19,7 +19,7 @@ graph LR
 
 The summarizer will need somewhere to put its output. Open `state.ts` and add a `summary` field to the annotation:
 
-```javascript
+```typescript
 export const ArticleAnnotation = Annotation.Root({
   feedItem: Annotation<FeedItem>(),
   content: Annotation<string>(),
@@ -38,7 +38,7 @@ Open `agents/summarizer-agent.ts`. Like the text extractor, the function structu
 
 Find the `buildPrompt` function at the bottom of the file. Replace the empty string with a prompt that tells the LLM how to summarize:
 
-```javascript
+```typescript
 function buildPrompt(content: string): string {
   return dedent`
     Summarize the following article in 2-3 sentences.
@@ -54,18 +54,18 @@ function buildPrompt(content: string): string {
 
 Back in the `summarizer` function, after the content check, add the LLM call. This follows the same pattern as the text extractor—build a prompt, invoke the LLM, pull out the response:
 
-```javascript
-  /* Build the prompt, send it to the LLM, and get its response */
-  const prompt = buildPrompt(content)
-  const response = await llm.invoke(prompt)
-  const summary = response.content as string
+```typescript
+/* Build the prompt, send it to the LLM, and get its response */
+const prompt = buildPrompt(content)
+const response = await llm.invoke(prompt)
+const summary = response.content as string
 ```
 
 ### Returning the Result
 
 Add some logging and change the return statement to return the summary:
 
-```javascript
+```typescript
 /* Log the token counts to show the reduction */
 log('Summarizer', 'Tokens in content:', tokenCounter.encode(content).length)
 log('Summarizer', 'Tokens in summary:', tokenCounter.encode(summary).length)
@@ -88,20 +88,20 @@ graph LR
 
 First, add the node after the text-extractor node:
 
-```javascript
+```typescript
 graph.addNode('summarizer', summarizer)
 ```
 
 Now update the edges. Remove the edge from `text-extractor` to `END` and replace it with two new edges that chain through the summarizer:
 
-```javascript
+```typescript
 graph.addEdge('text-extractor', 'summarizer')
 graph.addEdge('summarizer', END)
 ```
 
 Your edge section should now look like this:
 
-```javascript
+```typescript
 graph.addEdge(START, 'text-extractor')
 graph.addEdge('text-extractor', 'summarizer')
 graph.addEdge('summarizer', END)
@@ -111,7 +111,7 @@ This is sequential chaining—each node runs in order, and each one can read the
 
 ## Try It Out
 
-Click **Ingest** again. In the terminal, you'll now see both the text extractor and the summarizer running for each feed item. The summarizer logs will show the token reduction—how a long article gets compressed down to a few sentences.
+Click **Ingest** again (keep that article limit small). In the terminal, you'll now see both the text extractor and the summarizer running for each feed item. The summarizer logs will show the token reduction—how a long article gets compressed down to a few sentences.
 
 Still no articles saved (no assembler yet), but the workflow is getting richer.
 

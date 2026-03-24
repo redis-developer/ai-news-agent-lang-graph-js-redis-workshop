@@ -21,10 +21,14 @@ export async function articleExists(link: string): Promise<boolean> {
   return exists === 1
 }
 
-export async function saveArticle(article: ArticleData): Promise<void> {
+export async function saveArticle(article: ArticleData): Promise<Article> {
   const id = generateArticleId(article.link)
+  const articleWithId: Article = { id, ...article }
+
   const key = `${KEY_PREFIX}${id}`
-  await redis.json.set(key, '$', { id, ...article } as any)
+  await redis.json.set(key, '$', articleWithId as any)
+
+  return articleWithId
 }
 
 export async function fetchArticleById(id: string): Promise<import('./types.js').ArticleResponse> {
