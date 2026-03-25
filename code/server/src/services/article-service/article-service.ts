@@ -83,6 +83,7 @@ async function createIndex(): Promise<void> {
   const embeddingDimensions = fetchEmbeddingDims()
 
   console.log(`Creating index ${INDEX_NAME}`)
+
   await redis.ft.create(
     INDEX_NAME,
     {
@@ -103,6 +104,7 @@ async function createIndex(): Promise<void> {
     },
     { ON: 'JSON', PREFIX: KEY_PREFIX }
   )
+
   console.log(`Index ${INDEX_NAME} created`)
   console.log(
     'NOTE: If you change the index in code, you must delete the index in Redis CLI with:',
@@ -146,6 +148,13 @@ export async function searchArticles(criteria: SearchCriteria, limit: number = 5
     // Escape special characters in TAG values
     const escapeTag = (tag: string) => tag.replace(/[-\\,.<>{}[\]"':;!@#$%^&*()+=]/g, '\\$&')
 
+    // TAG filters with AND logic - each selected tag adds a separate filter
+    if (criteria.topics) criteria.topics.forEach(tag => queryParts.push(`@topics:{${escapeTag(tag)}}`))
+    if (criteria.people) criteria.people.forEach(tag => queryParts.push(`@people:{${escapeTag(tag)}}`))
+    if (criteria.organizations)
+      criteria.organizations.forEach(tag => queryParts.push(`@organizations:{${escapeTag(tag)}}`))
+    if (criteria.locations) criteria.locations.forEach(tag => queryParts.push(`@locations:{${escapeTag(tag)}}`))
+
     // Source filter (TAG field - OR logic, any of the selected sources)
     if (criteria.sources && criteria.sources.length > 0) {
       const sourceTags = criteria.sources.map(escapeTag).join('|')
@@ -158,13 +167,6 @@ export async function searchArticles(criteria: SearchCriteria, limit: number = 5
       const end = criteria.endDate ?? '+inf'
       queryParts.push(`@date:[${start} ${end}]`)
     }
-
-    // TAG filters with AND logic - each selected tag adds a separate filter
-    if (criteria.topics) criteria.topics.forEach(tag => queryParts.push(`@topics:{${escapeTag(tag)}}`))
-    if (criteria.people) criteria.people.forEach(tag => queryParts.push(`@people:{${escapeTag(tag)}}`))
-    if (criteria.organizations)
-      criteria.organizations.forEach(tag => queryParts.push(`@organizations:{${escapeTag(tag)}}`))
-    if (criteria.locations) criteria.locations.forEach(tag => queryParts.push(`@locations:{${escapeTag(tag)}}`))
 
     const textQuery = queryParts.length > 0 ? queryParts.join(' ') : '*'
 

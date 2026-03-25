@@ -14,10 +14,9 @@
 
 - Stage 2: Article Search
   - [Overview](/search/0-overview.md)
-  - [Creating a Search Index](/search/creating-an-index.md)
-  - [Structured Search with Tags](/search/structured-search.md)
-  - [Vector Search](/search/vector-search.md)
-  - [Hybrid Search](/search/hybrid-search.md)
+  - [Creating a Search Index](/search/1-creating-a-search-index.md)
+  - [Structured Search](/search/2-structured-search.md)
+  - [Semantic Search](/search/3-semantic-search.md)
 
 - Stage 3: Chatbot
   - [Overview](/chatbot/0-overview.md)

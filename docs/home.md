@@ -14,7 +14,7 @@ In [Stage 1](ingestion/0-overview.md) you'll learn how to build a LangGraph.js w
 
 ## Stage 2: Article Search with Redis Search
 
-Now that you have an article database in Redis, you can search it. In [Stage 2](search/0-overview.md) you'll create a Redis Search index—defining a schema with TAG, NUMERIC, and VECTOR fields. Then, you'll search it using structured filters, vector similarity search, and hybrid queries that combine structured and vector search together.
+Now that you have an article database in Redis, you can search it. In [Stage 2](search/0-overview.md) you'll create a Redis Search index—defining a schema with TAG, NUMERIC, and VECTOR fields. Then, you'll search it using structured filters, vector similarity search, and filtered vector queries that combine both.
 
 ## Stage 3: Chatbot with LangGraph.js + Redis Search + Redis Agent Memory Server
 
