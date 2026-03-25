@@ -45,7 +45,7 @@ To see your data, we'll use Redis Insight. If you don't have it open already, in
 
 In Redis Insight, you will be presented a list of databases you can connect to. There's only one named **Workshop Redis**. Click it. You should see a list of JSON keys on the left panel of Redis Insight. At the top of this panel you can toggle between a list view and a tree view. Play around with that and find a JSON key that starts with `news:aggregator:article:` and click on it. You will see the full JSON document—the article with all its fields: title, content, summary, topics, named entities, embedding, and everything else the workflow produced.
 
-You may need to click the **refresh** button (🔄) in the top-right to see newly ingested keys.
+You may need to click the **refresh** button in the top-right to see newly ingested keys.
 
 ### Exploring with JSONPath
 

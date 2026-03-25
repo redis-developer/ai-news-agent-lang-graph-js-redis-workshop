@@ -154,7 +154,7 @@ function buildPrompt(text: string): string {
 }
 ```
 
-The `dedent` tag strips the leading whitespace so the prompt isn't indented when it reaches the LLM whie keeping our code clean.
+The `dedent` tag strips the leading whitespace so the prompt isn't indented when it reaches the LLM while keeping our code clean.
 
 ### Calling the LLM
 
@@ -229,7 +229,7 @@ graph.addEdge('text-extractor', END)
 
 This says: when the graph starts, run the text extractor. When the text extractor finishes, the graph is done.
 
-Finally, compile the graph. This validates that all the edges connect properly and returns a runnable workflow:
+Next, compile the graph. This validates that all the edges connect properly and returns a runnable workflow:
 
 ```typescript
 /* Compile the workflow */

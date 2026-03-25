@@ -101,7 +101,7 @@ graph.addNode('article-assembler', articleAssembler, { defer: true })
 
 The `{ defer: true }` option is what makes fan-in work. It tells LangGraph.js: "Don't run this node as soon as one incoming edge arrives. Wait until **all** incoming edges have completed." Without `defer`, the assembler would run as soon as the first branch finished, and the state would be missing data from the other branches.
 
-Now rewire the edges. Remove the three `→ END` edges from the parallel branches and point them all at `article-assembler` instead:
+Now rewire the edges. Remove the three `END` edges from the parallel branches and point them all at `article-assembler` instead:
 
 ```mermaid
 graph LR
