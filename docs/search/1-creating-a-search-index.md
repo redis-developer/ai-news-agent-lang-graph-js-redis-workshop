@@ -16,7 +16,7 @@ Here's the key idea: you define an index that tells Redis which fields to index 
 
 ## The Index Function
 
-Open `services/article-service/article-service.ts`. Near the bottom, you'll find a `createIndex` function. It's called automatically when the module loads (look for `await createIndex()` near the top of the file). Right now, the function is empty—you'll fill it in.
+Open `services/article-service/article-service.ts` and find the `createIndex` function. It's called automatically when the module loads (look for `await createIndex()` near the top of the file). Right now, the function has some scaffolding—a call to `fetchEmbeddingDims()` and some logging—but the actual index creation logic is missing. You'll fill it in.
 
 The function also needs to be idempotent. If the index already exists, it should skip creation. Redis will throw an error if you try to create an index that already exists, and since this runs every time the server starts, you need to handle that.
 
@@ -171,7 +171,7 @@ async function createIndex(): Promise<void> {
   console.log(`Index ${INDEX_NAME} created`)
   console.log(
     'NOTE: If you change the index in code, you must delete the index in Redis CLI with:',
-    `FT.DROPINDEX ${INDEX_NAME}"`
+    `FT.DROPINDEX ${INDEX_NAME}`
   )
 }
 ```

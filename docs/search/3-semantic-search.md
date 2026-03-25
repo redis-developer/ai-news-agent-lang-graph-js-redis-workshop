@@ -95,3 +95,5 @@ Over these three steps, you've built a complete search system:
 3. **Semantic queries** that find articles by meaning using vector similarity, optionally combined with structured filters.
 
 This is the same pattern used in production RAG (Retrieval-Augmented Generation) systems—and you'll use it in the next stage when the chatbot needs to find relevant articles to answer questions.
+
+You're done with Stage 2. Next up: [Stage 3: Chatbot](/chatbot/0-overview.md).
