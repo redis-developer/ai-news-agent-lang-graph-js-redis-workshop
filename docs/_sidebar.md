@@ -20,10 +20,9 @@
 
 - Stage 3: Chatbot
   - [Overview](/chatbot/0-overview.md)
-  - [Introducing AMS](/chatbot/introducing-ams.md)
-  - [Enriching the Prompt](/chatbot/enriching-the-prompt.md)
-  - [Tools & the ReAct Agent](/chatbot/tools-and-react-agent.md)
-  - [Saving Memory](/chatbot/saving-memory.md)
+  - [Tools & the ReAct Agent](/chatbot/1-tools-and-react-agent.md)
+  - [Saving Memory](/chatbot/2-saving-memory.md)
+  - [Enriching the Prompt](/chatbot/3-enriching-the-prompt.md)
 
 - Stage 4: Brief Generator
   - [Overview](/brief/0-overview.md)

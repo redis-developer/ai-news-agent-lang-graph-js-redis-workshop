@@ -17,5 +17,11 @@ graph.addEdge('prompt-enricher', 'tool-using-responder')
 graph.addEdge('tool-using-responder', 'memory-saver')
 graph.addEdge('memory-saver', END)
 
-/* Compile and export the workflow */
-export const chatWorkflow = graph.compile()
+/* Compile the workflow */
+const chatWorkflow = graph.compile()
+
+/* Export a function to run the workflow */
+export async function invokeChat(sessionId: string, userMessage: string): Promise<string> {
+  const result = await chatWorkflow.invoke({ sessionId, userMessage })
+  return result.responseMessage ?? ''
+}

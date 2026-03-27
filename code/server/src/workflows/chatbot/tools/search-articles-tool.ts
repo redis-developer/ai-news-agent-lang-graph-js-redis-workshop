@@ -23,38 +23,30 @@ const searchArticlesSchema = z.object({
   limit: z.number().optional().default(5).describe('Maximum number of articles to return')
 })
 
-export const searchArticlesTool = tool(
-  async ({ semanticQuery, topics, people, organizations, locations, sources, startDate, endDate, limit }) => {
-    const criteria = {
-      semanticQuery,
-      topics,
-      people,
-      organizations,
-      locations,
-      sources,
-      startDate,
-      endDate
-    }
+type SearchArticlesParams = z.infer<typeof searchArticlesSchema>
 
-    const result = await searchArticlesService(criteria, limit ?? 5)
+async function searchArticles(params: SearchArticlesParams): Promise<string> {
+  const { limit, ...criteria } = params
 
-    if (result.success) {
-      // Transform articles to reduce context size and prevent LLM from using actual URLs
-      const articles = result.articles.map(({ content, link, ...rest }) => rest)
-      return JSON.stringify({ articles })
-    }
+  const result = await searchArticlesService(criteria, limit ?? 5)
 
-    return JSON.stringify({ error: result.error, articles: [] })
-  },
-  {
-    name: 'search_articles',
-    description: dedent`
-      Search the news article database. Use semantic search for natural
-      language queries, or filter by topics, people, organizations, locations,
-      sources, and date range. Returns articles with id, title, summary, source,
-      publicationDate, topics, and namedEntities (people, organizations, locations).
-      Construct relative URLs using the article id: [Article Title](/article/{id}).
-      Do not use http:// or https:// URLs.`,
-    schema: searchArticlesSchema
+  if (result.success) {
+    // Transform articles to reduce context size and prevent LLM from using actual URLs
+    const articles = result.articles.map(({ content, link, ...rest }) => rest)
+    return JSON.stringify({ articles })
   }
-)
+
+  return JSON.stringify({ error: result.error, articles: [] })
+}
+
+export const searchArticlesTool = tool(searchArticles, {
+  name: 'search_articles',
+  description: dedent`
+    Search the news article database. Use semantic search for natural
+    language queries, or filter by topics, people, organizations, locations,
+    sources, and date range. Returns articles with id, title, summary, source,
+    publicationDate, topics, and namedEntities (people, organizations, locations).
+    Construct relative URLs using the article id: [Article Title](/article/{id}).
+    Do not use http:// or https:// URLs.`,
+  schema: searchArticlesSchema
+})
