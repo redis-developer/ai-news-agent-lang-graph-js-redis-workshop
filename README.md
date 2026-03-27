@@ -1,13 +1,11 @@
 # Redis + LangGraph.js Workshop
 
-> ⚠️ **Work in Progress** — This workshop is under active development and is not ready for use yet. Things will change, break, and move around.
-
 A hands-on workshop for building agentic AI applications using Redis and LangGraph.js. Build a news aggregator that fetches articles from RSS feeds, summarizes them, extracts named entities, generates embeddings, and stores everything in Redis. Then search, chat, and generate news briefs — all powered by AI.
 
 ## What You'll Learn
 
 - **Ingestion workflows** — Fetch RSS feeds, summarize articles, extract named entities, generate embeddings, and store everything in Redis
-- **Hybrid search** — Combine vector similarity with structured filtering using Redis Query Engine
+- **Hybrid search** — Combine vector similarity with structured filtering using Redis Search
 - **Tool-enabled RAG** — Build a chatbot that retrieves and reasons over news articles
 - **Agent memory** — Give your agent short-term and long-term memory with Redis Agent Memory Server
 
@@ -40,7 +38,7 @@ A hands-on workshop for building agentic AI applications using Redis and LangGra
    cp .env.sample .env
    ```
 
-   Then edit `.env` and replace `your-key-here` with your actual key.
+   Then edit `.env` and replace `sk-proj-your-openai-key` with your actual key.
 
 3. Start the workbench:
 
