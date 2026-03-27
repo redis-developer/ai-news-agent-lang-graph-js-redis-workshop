@@ -9,7 +9,7 @@
   - [Multi-Node Graphs: Summarization](/ingestion/2-multi-node-graph.md)
   - [Fan-Out: Parallel Processing](/ingestion/3-fan-out.md)
   - [Embeddings](/ingestion/4-embeddings.md)
-  - [Fan-In: Assembling Results](/ingestion/5-fan-in.md)
+  - [Fan-In: The Article Assembler](/ingestion/5-fan-in.md)
   - [Storing Articles in Redis](/ingestion/6-storing-in-redis.md)
 
 - Stage 2: Article Search
@@ -26,6 +26,4 @@
 
 - Stage 4: Brief Generator
   - [Overview](/brief/0-overview.md)
-  - [Fetching Articles & Memories](/brief/fetching-data.md)
-  - [Generating the Brief](/brief/generating-the-brief.md)
-  - [Memory Beyond Chatbots](/brief/memory-beyond-chatbots.md)
+  - [Building the Brief](/brief/1-building-the-brief.md)

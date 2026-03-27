@@ -118,7 +118,7 @@ if (!feedItem.html) {
 
 Once you've added the destructure and uncommented these lines, the function can pull `feedItem` from state, validate it, and handle the no-HTML case.
 
-There's also an `extractTextFromHtml` helper function at the bottom of the file. It uses the `html-to-text` library to strip HTML down to plain text—removing images, scripts, and styles while preserving links. We could use an LLM to remove all the HTML instead, but a library is faster and cheaper. Regardless, you won't need to change it this function.
+There's also an `extractTextFromHtml` helper function at the bottom of the file. It uses the `html-to-text` library to strip HTML down to plain text—removing images, scripts, and styles while preserving links. We could use an LLM to remove all the HTML instead, but a library is faster and cheaper. Regardless, you won't need to change this function.
 
 ### Extracting and Cleaning the Text
 

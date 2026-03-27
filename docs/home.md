@@ -4,7 +4,7 @@ In this workshop, you'll build an AI-powered news agent using **Redis** and **La
 
 If you're reading this, your workshop environment is ready to go. You can start with [Stage 1](ingestion/0-overview.md) or keep reading for an overview of what you'll build.
 
-If you need it, a brief introduction to this environment and a selected links to documentation for technologies used in this workshop can be found in the sidebar. Just click the hamburger menu in the bottom left corner to access it.
+If you need it, a brief introduction to this environment and selected links to documentation for technologies used in this workshop can be found in the sidebar. Just click the hamburger menu in the bottom left corner to access it.
 
 ---
 

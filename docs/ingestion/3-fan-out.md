@@ -93,7 +93,7 @@ Of course, schemas can be as simple or complex as needed. They can have nested o
 
 ### Creating the LLM with Structured Output
 
-Near the top of the file, you'll see the familiar `const llm = fetchLLM()`. Instead of using the LLM directly, chain `.withStructuredOutput()` onto it to tell the LLM to return data matching your schema:
+Near the top of the file, you'll see `const llm = fetchLLM()`. Replace that line with one that chains `.withStructuredOutput()` onto the LLM, telling it to return data matching your schema:
 
 ```typescript
 const llm = fetchLLM().withStructuredOutput(topicsSchema)
@@ -177,7 +177,7 @@ const namedEntitiesSchema = z.object({
 
 ### Creating the LLM
 
-Same as before—chain `.withStructuredOutput()` onto the existing `fetchLLM()` call:
+Same as before—replace the `fetchLLM()` line with one that chains `.withStructuredOutput()`:
 
 ```typescript
 const llm = fetchLLM().withStructuredOutput(namedEntitiesSchema)

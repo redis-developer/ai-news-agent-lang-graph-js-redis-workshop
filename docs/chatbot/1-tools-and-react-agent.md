@@ -70,13 +70,13 @@ const searchArticlesSchema = z.object({
 
 These `.describe()` strings are important—they're how the LLM understands what each parameter does. When the user asks "find me articles about AI from last week," the LLM reads these descriptions and decides to set `topics: ["AI"]` and fill in `startDate`/`endDate` with appropriate timestamps.
 
-Now derive a TypeScript type from the schema:
+Below the schema you'll see a type derived from it:
 
 ```typescript
 type SearchArticlesParams = z.infer<typeof searchArticlesSchema>
 ```
 
-`z.infer` derives a TypeScript type directly from the Zod schema—so the type stays in sync with the schema automatically. You'll use this type in the next section.
+`z.infer` derives a TypeScript type directly from the Zod schema—so the type stays in sync with the schema automatically. It's already in the file; you'll see it used in the next section.
 
 ### The Tool Function
 

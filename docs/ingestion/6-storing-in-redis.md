@@ -39,7 +39,7 @@ Click **Ingest** again (small limit). This time the articles are saved to Redis.
 
 ### Opening Redis Insight
 
-To see your data, we'll use Redis Insight. If you don't have it open already, in the workbench, click the humburger menu on the top left and select **Redis Insight** in the menu. This will make the Redis Insight panel visible. You can always open in in a new tab from there if the panel is too small. If this is your first time opening it, you may need to accept a EULA.
+To see your data, we'll use Redis Insight. If you don't have it open already, in the workbench, click the hamburger menu on the top left and select **Redis Insight** in the menu. This will make the Redis Insight panel visible. You can always open in in a new tab from there if the panel is too small. If this is your first time opening it, you may need to accept a EULA.
 
 ### Browsing Your Data
 
