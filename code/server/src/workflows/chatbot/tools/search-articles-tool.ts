@@ -12,31 +12,14 @@ import { searchArticles as searchArticlesService } from '@services'
  +=========================================================================*/
 
 const searchArticlesSchema = z.object({
-  semanticQuery: z.string().optional().describe('Natural language search query for semantic similarity search'),
-  topics: z.array(z.string()).optional().describe('Filter by topics (AND logic - all must match)'),
-  people: z.array(z.string()).optional().describe('Filter by people mentioned (AND logic)'),
-  organizations: z.array(z.string()).optional().describe('Filter by organizations mentioned (AND logic)'),
-  locations: z.array(z.string()).optional().describe('Filter by locations mentioned (AND logic)'),
-  sources: z.array(z.string()).optional().describe('Filter by news sources (OR logic - any can match)'),
-  startDate: z.number().optional().describe('Filter articles from this Unix timestamp (seconds)'),
-  endDate: z.number().optional().describe('Filter articles until this Unix timestamp (seconds)'),
-  limit: z.number().optional().default(5).describe('Maximum number of articles to return')
+  // TODO: Define the schema
 })
 
 type SearchArticlesParams = z.infer<typeof searchArticlesSchema>
 
 async function searchArticles(params: SearchArticlesParams): Promise<string> {
-  const { limit, ...criteria } = params
-
-  const result = await searchArticlesService(criteria, limit ?? 5)
-
-  if (result.success) {
-    // Transform articles to reduce context size and prevent LLM from using actual URLs
-    const articles = result.articles.map(({ content, link, ...rest }) => rest)
-    return JSON.stringify({ articles })
-  }
-
-  return JSON.stringify({ error: result.error, articles: [] })
+  // TODO: Implement the search function
+  return JSON.stringify({ articles: [] })
 }
 
 export const searchArticlesTool = tool(searchArticles, {

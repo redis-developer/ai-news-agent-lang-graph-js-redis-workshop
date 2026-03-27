@@ -11,19 +11,12 @@ import type { ChatState } from '../state.js'
 /*==========================================================================
  * Create the prebuilt ReAct agent with tools
  +=========================================================================*/
-const llm = fetchLargeLLM()
-const tools = [searchArticlesTool]
 
-const reactAgent = createReactAgent({
-  llm,
-  tools,
-  messageModifier: new SystemMessage(buildPrompt())
-})
+// TODO: Create the ReAct agent
 
 export async function toolUsingResponder(state: ChatState): Promise<Partial<ChatState>> {
-  const result = await reactAgent.invoke({ messages: state.promptMessages })
-  const responseMessage = result.messages[result.messages.length - 1].content as string
-  return { responseMessage }
+  // TODO: Invoke the ReAct agent and return the response
+  return { responseMessage: '' }
 }
 
 function buildPrompt(): string {
