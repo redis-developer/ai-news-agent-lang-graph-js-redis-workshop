@@ -1,7 +1,7 @@
 import { log } from '@services'
 
 import type { BriefRequest, BriefResult } from './types.js'
-import { briefWorkflow } from './workflow.js'
+import { invokeBrief } from './workflow.js'
 
 /*==========================================================================
  * Generate a personalized news brief
@@ -11,14 +11,9 @@ export async function brief(request: BriefRequest): Promise<BriefResult> {
 
   log('Brief Workflow', `🗞️ Generating ${period} brief`)
 
-  const result = await briefWorkflow.invoke({ period })
+  const result = await invokeBrief(period)
 
-  const articleCount = result.articles.length
+  log('Brief Workflow', `✅ Generated brief with ${result.articleCount} articles`)
 
-  log('Brief Workflow', `✅ Generated brief with ${articleCount} articles`)
-
-  return {
-    brief: result.brief,
-    articleCount
-  }
+  return result
 }

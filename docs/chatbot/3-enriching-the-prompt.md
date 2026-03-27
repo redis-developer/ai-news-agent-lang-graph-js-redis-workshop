@@ -117,3 +117,5 @@ graph LR
 Memory flows in a circle: read → think → act → write → read again. The chatbot gets smarter with every conversation.
 
 You've completed Stage 3. The chatbot can search, converse, and remember.
+
+Next: [Stage 4: Brief Generator](../brief/0-overview.md)

@@ -22,7 +22,7 @@ In [Stage 3](chatbot/0-overview.md) we'll talk about the news. You'll build a co
 
 ## Stage 4: Brief Generator with LangGraph.js + Redis Agent Memory Server
 
-Finally, in [Stage 4](brief/0-overview.md) we'll bring it all together. You'll write a workflow that generates personalized news briefs. It'll fetch recent articles using the search code from Stage 2, retreive long-term memories from AMS, then use them to generate a brief tailored to your interests.
+Finally, in [Stage 4](brief/0-overview.md) we'll bring it all together. You'll write a workflow that generates personalized news briefs. It'll fetch recent articles using the search code from Stage 2, retrieve long-term memories from AMS, then use them to generate a brief tailored to your interests.
 
 ---
 

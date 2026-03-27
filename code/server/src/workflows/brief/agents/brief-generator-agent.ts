@@ -7,21 +7,8 @@ import type { BriefPeriod } from '../types.js'
 import type { BriefState } from '../state.js'
 
 export async function briefGenerator(state: BriefState): Promise<Partial<BriefState>> {
-  const { period, articles, memories } = state
-
-  /* If no articles found, return a brief message */
-  if (articles.length === 0) return { brief: `No news articles found for the ${period} period.` }
-
-  /* Build the prompt */
-  const prompt = buildPrompt(period, articles, memories)
-
-  /* Generate the brief */
-  const llm = fetchLargeLLM()
-  const response = await llm.invoke(prompt)
-  const brief = response.content as string
-
-  /* Return the brief */
-  return { brief }
+  // TODO: Generate a personalized brief from articles and memories
+  return { brief: '' }
 }
 
 function buildPrompt(period: BriefPeriod, articles: SearchedArticle[], memories: LongTermMemory[]): string {
