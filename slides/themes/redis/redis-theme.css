@@ -1,0 +1,412 @@
+/* @theme redis */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+  --redis-white: #ffffff;
+  --redis-hyper: #ff4438;
+  --redis-deep-hyper: #eb352a;
+  --redis-black: #000000;
+  --redis-black-90: #191919;
+  --redis-black-70: #4c4c4c;
+  --redis-black-50: #808080;
+  --redis-black-30: #b2b2b2;
+  --redis-black-10: #e5e5e5;
+  --redis-light-gray: #f0f0f0;
+  --redis-midnight: #091a23;
+  --redis-dusk: #163341;
+  --redis-dusk-90: #2d4754;
+  --redis-dusk-70: #5c707a;
+  --redis-dusk-50: #8a99a0;
+  --redis-dusk-30: #b9c2c6;
+  --redis-dusk-10: #e8ebec;
+  --redis-violet: #c795e3;
+  --redis-violet-50: #e3caf1;
+  --redis-violet-20: #f4eaf9;
+  --redis-violet-10: #f9f4fc;
+  --redis-sky-blue: #80dbff;
+  --redis-sky-blue-50: #bfedff;
+  --redis-sky-blue-20: #e6f8ff;
+  --redis-sky-blue-10: #f2fbff;
+  --redis-yellow: #dcff1e;
+  --redis-yellow-50: #f1ffa5;
+  --redis-yellow-20: #f8ffd2;
+  --redis-yellow-10: #fbffe8;
+}
+
+/* ---- Base section ---- */
+
+section {
+  font-family: 'Space Grotesk', sans-serif;
+  padding: 50px;
+  padding-bottom: 25px;
+}
+
+/* ---- Utility classes ---- */
+
+section.no-logo::before {
+  display: none;
+}
+
+/* ---- Code blocks ---- */
+
+section pre {
+  background: var(--redis-dusk);
+  border-radius: 8px;
+  padding: 1em;
+}
+
+section pre code {
+  font-family: 'Space Mono', monospace;
+  color: var(--redis-dusk-10);
+}
+
+section code {
+  font-family: 'Space Mono', monospace;
+}
+
+section.light pre {
+  background: var(--redis-black-10);
+}
+
+section.light pre code {
+  color: var(--redis-midnight);
+}
+
+/* ---- Syntax highlighting — light variant ---- */
+
+section.light .hljs-keyword,
+section.light .hljs-selector-tag,
+section.light .hljs-type {
+  color: #8b31b0;
+}
+
+section.light .hljs-string,
+section.light .hljs-template-variable {
+  color: #6a7f00;
+}
+
+section.light .hljs-number,
+section.light .hljs-literal {
+  color: #0077aa;
+}
+
+section.light .hljs-comment {
+  color: var(--redis-black-50);
+}
+
+section.light .hljs-built_in,
+section.light .hljs-title {
+  color: #0077aa;
+}
+
+section.light .hljs-attr,
+section.light .hljs-variable,
+section.light .hljs-params {
+  color: var(--redis-midnight);
+}
+
+section.light .hljs-meta,
+section.light .hljs-punctuation {
+  color: var(--redis-black-70);
+}
+
+/* ---- Syntax highlighting (highlight.js) ---- */
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-type {
+  color: var(--redis-violet);
+}
+
+.hljs-string,
+.hljs-template-variable {
+  color: var(--redis-yellow);
+}
+
+.hljs-number,
+.hljs-literal {
+  color: var(--redis-sky-blue);
+}
+
+.hljs-comment {
+  color: var(--redis-dusk-50);
+}
+
+.hljs-built_in,
+.hljs-title {
+  color: var(--redis-sky-blue);
+}
+
+.hljs-attr,
+.hljs-variable,
+.hljs-params {
+  color: var(--redis-dusk-10);
+}
+
+.hljs-meta,
+.hljs-punctuation {
+  color: var(--redis-dusk-30);
+}
+
+section::after {
+  font-size: 10px;
+  color: var(--redis-dusk-30);
+}
+
+/* ---- Color variants (apply to any slide type) ---- */
+
+section.hyper {
+  background-color: var(--redis-hyper);
+  color: var(--redis-white);
+}
+
+section.light {
+  background-color: var(--redis-white);
+  color: var(--redis-black);
+}
+
+section.dark {
+  background-color: var(--redis-midnight);
+  color: var(--redis-white);
+}
+
+/* ---- Bumper slides (title & thanks) ---- */
+
+section.title::after,
+section.thanks::after,
+section.hero::after {
+  display: none;
+}
+
+section.title,
+section.thanks {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  background-size: auto 95%;
+}
+
+section.title::before,
+section.thanks::before {
+  content: '';
+  width: 100%;
+  height: 78px;
+  background-image: url('themes/redis/redis-logo-hyper.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+}
+
+section.title.hyper::before,
+section.thanks.hyper::before {
+  background-image: url('themes/redis/redis-logo-white.svg');
+}
+
+section.title.hyper,
+section.thanks.hyper {
+  background-image: url('themes/redis/title-background-hyper.png');
+}
+
+section.title.light,
+section.thanks.light {
+  background-image: url('themes/redis/title-background-light.png');
+}
+
+section.title.dark,
+section.thanks.dark {
+  background-image: url('themes/redis/title-background-dark.png');
+}
+
+/* ---- Title-specific ---- */
+
+section.title h1 {
+  font-size: 76px;
+  font-weight: 400;
+  padding-top: 156px;
+  margin: 0;
+}
+
+section.title ul {
+  list-style: none;
+  padding: 110px 0;
+  margin: 0;
+}
+
+section.title li {
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.25;
+  padding: 0;
+  margin: 0;
+}
+
+/* ---- Thanks-specific ---- */
+
+section.thanks p {
+  font-size: 30px;
+  font-weight: 400;
+  padding-top: 435px;
+  margin: 0;
+}
+
+/* ---- Content slides (content, centered-content, centered-images, blank) ---- */
+
+section.content,
+section.centered-content,
+section.centered-images,
+section.blank,
+section.blank-images {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+section.content :is(h1),
+section.centered-content :is(h1),
+section.centered-images :is(h1),
+section.blank :is(h1),
+section.blank-images :is(h1) {
+  font-size: 44px;
+  font-weight: 500;
+  margin: 0;
+}
+
+section.content :is(h2),
+section.centered-content :is(h2),
+section.centered-images :is(h2),
+section.blank :is(h2),
+section.blank-images :is(h2) {
+  font-size: 26px;
+  font-weight: 400;
+  padding-top: 10px;
+  padding-bottom: 40px;
+  margin: 0;
+}
+
+section.content::before,
+section.centered-content::before,
+section.centered-images::before,
+section.blank::before,
+section.blank-images::before {
+  content: '';
+  position: absolute;
+  bottom: 25px;
+  left: 50px;
+  width: 100%;
+  height: 20px;
+  background-image: url('themes/redis/redis-logo-hyper.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* ---- Content (left-aligned) ---- */
+
+section.content {
+  align-items: flex-start;
+}
+
+/* ---- Centered content ---- */
+
+section.centered-content {
+  align-items: center;
+  text-align: center;
+}
+
+/* ---- Blank ---- */
+
+section.blank {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* ---- Blank images ---- */
+
+section.blank-images {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+section.blank-images p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  width: 100%;
+  margin: 0;
+}
+
+/* ---- Centered images ---- */
+
+section.centered-images {
+  align-items: center;
+  text-align: center;
+}
+
+section.centered-images p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  width: 100%;
+  flex-grow: 1;
+  margin: 0;
+}
+
+section.centered-images p:last-of-type {
+  padding-bottom: 120px;
+}
+
+/* ---- Hero class ---- */
+
+section.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+section.hero.hyper {
+  background-image: url('themes/redis/hero-background-hyper.png');
+}
+
+section.hero.light {
+  background-image: url('themes/redis/hero-background-light.png');
+}
+
+section.hero.dark {
+  background-image: url('themes/redis/hero-background-dark.png');
+}
+
+section.hero::before {
+  content: '';
+  position: absolute;
+  bottom: 25px;
+  left: 50px;
+  width: 100%;
+  height: 20px;
+  background-image: url('themes/redis/redis-logo-hyper.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+section.hero h1 {
+  font-size: 100px;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.9;
+  margin: 0;
+  padding: 0 50px;
+}

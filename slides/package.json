@@ -1,0 +1,15 @@
+{
+  "name": "@news-agent/slides",
+  "version": "1.0.0",
+  "description": "Slides for the Redis + LangGraph.js Workshop",
+  "author": "Guy Royse <guy@guy.dev>",
+  "license": "CC-BY-4.0",
+  "private": true,
+  "scripts": {
+    "build": "marp --theme themes/redis/redis-theme.css --allow-local-files ai-news-agent-workshop.md --pdf",
+    "start": "marp --theme themes/redis/redis-theme.css --server ."
+  },
+  "devDependencies": {
+    "@marp-team/marp-cli": "^4.3.1"
+  }
+}

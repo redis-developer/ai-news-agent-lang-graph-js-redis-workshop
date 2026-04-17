@@ -11,6 +11,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "files.associations": {
-    "*.css": "tailwindcss"
-  }
+    "code/client/**/*.css": "tailwindcss"
+  },
+  "markdown.marp.themes": ["./slides/themes/redis/redis-theme.css"]
 }
