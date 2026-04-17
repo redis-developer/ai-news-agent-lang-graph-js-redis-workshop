@@ -35,12 +35,58 @@
   --redis-yellow-10: #fbffe8;
 }
 
-/* ---- Base section ---- */
+/* ---- Base section (content defaults) ---- */
 
 section {
   font-family: 'Space Grotesk', sans-serif;
   padding: 50px;
   padding-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+section :is(h3, h4, p, ul, ol, pre, blockquote, table) {
+  margin: 8px 0;
+}
+
+section h1 {
+  font-size: 44px;
+  font-weight: 500;
+  margin: 0;
+}
+
+section h2 {
+  font-size: 26px;
+  font-weight: 400;
+  margin: 0;
+  padding-bottom: 60px;
+}
+
+section h3 {
+  font-size: 26px;
+  font-weight: 500;
+}
+
+section h4 {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+section::before {
+  content: '';
+  position: absolute;
+  bottom: 25px;
+  left: 50px;
+  width: 100%;
+  height: 20px;
+  background-image: url('themes/redis/redis-logo-hyper.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 /* ---- Utility classes ---- */
@@ -60,6 +106,8 @@ section pre {
 section pre code {
   font-family: 'Space Mono', monospace;
   color: var(--redis-dusk-10);
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 section code {
@@ -182,10 +230,6 @@ section.hero::after {
 
 section.title,
 section.thanks {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   background-position: bottom right;
   background-repeat: no-repeat;
   background-size: auto 95%;
@@ -193,12 +237,11 @@ section.thanks {
 
 section.title::before,
 section.thanks::before {
-  content: '';
+  position: static;
   width: 100%;
   height: 78px;
-  background-image: url('themes/redis/redis-logo-hyper.svg');
-  background-size: contain;
-  background-repeat: no-repeat;
+  bottom: auto;
+  left: auto;
   flex-shrink: 0;
 }
 
@@ -254,87 +297,69 @@ section.thanks p {
   margin: 0;
 }
 
-/* ---- Content slides (content, centered-content, centered-images, blank) ---- */
-
-section.content,
-section.centered-content,
-section.centered-images,
-section.blank,
-section.blank-images {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  font-size: 22px;
-  font-weight: 400;
-  line-height: 1.25;
-}
-
-section.content :is(h1),
-section.centered-content :is(h1),
-section.centered-images :is(h1),
-section.blank :is(h1),
-section.blank-images :is(h1) {
-  font-size: 44px;
-  font-weight: 500;
-  margin: 0;
-}
-
-section.content :is(h2),
-section.centered-content :is(h2),
-section.centered-images :is(h2),
-section.blank :is(h2),
-section.blank-images :is(h2) {
-  font-size: 26px;
-  font-weight: 400;
-  padding-top: 10px;
-  padding-bottom: 40px;
-  margin: 0;
-}
-
-section.content::before,
-section.centered-content::before,
-section.centered-images::before,
-section.blank::before,
-section.blank-images::before {
-  content: '';
-  position: absolute;
-  bottom: 25px;
-  left: 50px;
-  width: 100%;
-  height: 20px;
-  background-image: url('themes/redis/redis-logo-hyper.svg');
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-/* ---- Content (left-aligned) ---- */
-
-section.content {
-  align-items: flex-start;
-}
+/* ---- Content slides ---- */
 
 /* ---- Centered content ---- */
 
 section.centered-content {
   align-items: center;
   text-align: center;
+  padding-left: 120px;
+  padding-right: 120px;
+}
+
+section.centered-content pre {
+  text-align: left;
+  width: 100%;
 }
 
 /* ---- Blank ---- */
 
-section.blank {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-/* ---- Blank images ---- */
-
+section.blank,
 section.blank-images {
   justify-content: center;
   align-items: center;
   text-align: center;
+  font-size: 28px;
+  padding-left: 120px;
+  padding-right: 120px;
 }
+
+section.blank pre,
+section.blank-images pre {
+  text-align: left;
+  width: 100%;
+  font-size: 0.8em;
+}
+
+section.blank h1,
+section.blank-images h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+section.blank h2,
+section.blank-images h2 {
+  font-size: 32px;
+  font-weight: 500;
+  margin: 8px 0;
+  padding-bottom: 0;
+}
+
+section.blank h3,
+section.blank-images h3 {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+section.blank h4,
+section.blank-images h4 {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+/* ---- Blank images ---- */
 
 section.blank-images p {
   display: flex;
@@ -369,8 +394,6 @@ section.centered-images p:last-of-type {
 /* ---- Hero class ---- */
 
 section.hero {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -388,18 +411,6 @@ section.hero.light {
 
 section.hero.dark {
   background-image: url('themes/redis/hero-background-dark.png');
-}
-
-section.hero::before {
-  content: '';
-  position: absolute;
-  bottom: 25px;
-  left: 50px;
-  width: 100%;
-  height: 20px;
-  background-image: url('themes/redis/redis-logo-hyper.svg');
-  background-size: contain;
-  background-repeat: no-repeat;
 }
 
 section.hero h1 {

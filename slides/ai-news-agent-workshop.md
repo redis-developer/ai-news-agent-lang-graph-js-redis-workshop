@@ -53,15 +53,22 @@ console.log(stages.length)
 
 ## A four-stage AI pipeline
 
+### The details
+
+#### The big picture
+
 It does really cool stuff.
 
-```typescript
-const stages = ['Ingestion', 'Search', 'Chatbot', 'Brief Generator']
-console.log(stages)
-// [ 'Ingestion', 'Search', 'Chatbot', 'Brief Generator' ]
-console.log(stages.length)
-// 4
-```
+It really, really does.
+
+#### Even more details
+
+These are the stages:
+
+- Ingestion
+- Search
+- Chatbot
+- Brief Generator
 
 ---
 
@@ -121,7 +128,13 @@ console.log(stages.length)
 
 ## Light variant
 
-![w:500](https://picsum.photos/500/300)
+```typescript
+const stages = ['Ingestion', 'Search', 'Chatbot', 'Brief Generator']
+console.log(stages)
+// [ 'Ingestion', 'Search', 'Chatbot', 'Brief Generator' ]
+console.log(stages.length)
+// 4
+```
 
 ---
 
@@ -168,7 +181,17 @@ console.log(stages.length)
 
 <!-- _class: blank dark -->
 
-Just some centered content on a blank slide.
+# Blank slide
+
+## Subtitle
+
+### Sub-subtitle
+
+#### Sub-sub-subtitle
+
+Just some centered content on a blank slide. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget ultrices ultrices, nunc nisl ultrices nunc, eu ultrices nisl nunc euismod.
+
+And more content.
 
 ---
 
@@ -183,6 +206,18 @@ Just some centered content on a blank slide.
 ![h:80](themes/redis/redis-logo-hyper.svg)
 ![h:80](themes/redis/redis-logo-white.svg)
 ![h:80](themes/redis/redis-logo-hyper.svg)
+
+---
+
+<!-- _class: blank dark -->
+
+```typescript
+const stages = ['Ingestion', 'Search', 'Chatbot', 'Brief Generator']
+console.log(stages)
+// [ 'Ingestion', 'Search', 'Chatbot', 'Brief Generator' ]
+console.log(stages.length)
+// 4
+```
 
 ---
 
