@@ -221,6 +221,55 @@ console.log(stages.length)
 
 ---
 
+<!-- _class: speaker dark -->
+
+![](https://picsum.photos/400/400)
+
+# Guy Royse Has Really Long Name
+
+## Senior Developer Advocate at Redis
+
+# Who is this ![h:50 w:50](https://picsum.photos/400/400) Guy?
+
+Developer advocate at Redis with decades of experience.
+
+- Builds things with Redis
+- Plays mass amounts of D&D
+
+![h:50 w:50](https://picsum.photos/400/400) @guyroyse
+
+![h:50 w:50](https://picsum.photos/400/400) guyroyse
+
+---
+
+<!-- _class: speaker light -->
+
+![](https://picsum.photos/400/400)
+
+# Guy Royse
+
+## Senior Developer Advocate
+
+- Builds things with Redis
+- Plays mass amounts of D&D
+- @guyroyse
+
+---
+
+<!-- _class: speaker hyper -->
+
+![](https://picsum.photos/400/400)
+
+# Guy Royse
+
+## Developer Advocate, Redis
+
+- Builds things with Redis
+- Plays mass amounts of D&D
+- @guyroyse
+
+---
+
 <!-- _class: thanks hyper -->
 
 Thank you.

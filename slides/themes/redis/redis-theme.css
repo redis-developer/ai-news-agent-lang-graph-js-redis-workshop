@@ -95,6 +95,17 @@ section.no-logo::before {
   display: none;
 }
 
+/* ---- Inline images ---- */
+
+section :is(p, h1, h2, h3, h4, li) {
+  display: flex;
+  align-items: center;
+}
+
+section :is(p, h1, h2, h3, h4, li) img {
+  padding: 0 10px;
+}
+
 /* ---- Code blocks ---- */
 
 section pre {
@@ -420,4 +431,110 @@ section.hero h1 {
   line-height: 0.9;
   margin: 0;
   padding: 0 50px;
+}
+
+/* ---- Speaker class ---- */
+
+section.speaker {
+  display: block;
+  padding-left: 75px;
+  padding-top: 100px;
+  column-count: 2;
+  column-gap: 0px;
+  font-size: 28px;
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  background-size: auto 95%;
+}
+
+section.speaker.hyper {
+  background-image: url('themes/redis/title-background-hyper.png');
+}
+
+section.speaker.light {
+  background-image: url('themes/redis/title-background-light.png');
+}
+
+section.speaker.dark {
+  background-image: url('themes/redis/title-background-dark.png');
+}
+
+/* Speaker photo */
+section.speaker img:first-of-type {
+  width: 285px;
+  height: 285px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Speaker name (first h1) */
+section.speaker h1:first-of-type {
+  font-size: 28px;
+  font-weight: 400;
+  width: 250px;
+  padding-left: 30px;
+  padding-bottom: 20px;
+  position: relative;
+  display: block;
+}
+
+section.speaker h1:first-of-type::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  margin-top: 12px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--redis-yellow);
+}
+
+section.speaker.light h1:first-of-type::before {
+  background-color: var(--redis-hyper);
+}
+
+section.speaker.hyper h1:first-of-type::before {
+  background-color: var(--redis-white);
+}
+
+/* Speaker title (first h2) */
+section.speaker h2:first-of-type {
+  font-size: 18px;
+  font-weight: 400;
+  width: 250px;
+  padding-left: 30px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  break-after: column;
+}
+
+/* Speaker content (right side) */
+
+section.speaker :is(h3, h4, p, ul, ol, pre, blockquote) {
+  margin: 15px 0;
+  margin-right: 125px;
+}
+
+section.speaker h1:not(:first-of-type) {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 15px 0;
+}
+
+section.speaker h2:not(:first-of-type) {
+  font-size: 32px;
+  font-weight: 500;
+  margin: 15px 0;
+  padding-bottom: 0;
+  text-transform: none;
+}
+
+section.speaker h3 {
+  margin: 15px 0;
+  font-size: 28px;
+}
+
+section.speaker h4 {
+  margin: 15px 0;
+  font-size: 24px;
 }

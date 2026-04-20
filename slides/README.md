@@ -60,16 +60,17 @@ Each slide needs a layout class and a color class, set via an HTML comment:
 
 #### Layout Classes
 
-| Class              | Description                                                                       |
-| ------------------ | --------------------------------------------------------------------------------- |
-| `title`            | Title/opening slide. Logo, title (h1), and subtitle info (ul)                     |
-| `thanks`           | Closing slide. Logo and a thank-you message (p)                                   |
-| `hero`             | Big, bold, centered, uppercase text (h1). No title/subtitle                       |
-| `content`          | Standard content slide. Left-aligned with h1 title and h2 subtitle                |
-| `centered-content` | Like `content` but centered. Good for diagrams or single images                   |
-| `centered-images`  | Like `content` with images in horizontal rows. Uses h1/h2 for title/subtitle      |
-| `blank`            | No title/subtitle. Content is centered. Good for standalone code, text, or images |
-| `blank-images`     | Like `blank` with images laid out horizontally                                    |
+| Class              | Description                                                                             |
+| ------------------ | --------------------------------------------------------------------------------------- |
+| `title`            | Title/opening slide. Logo, title (h1), and subtitle info (ul)                           |
+| `thanks`           | Closing slide. Logo and a thank-you message (p)                                         |
+| `hero`             | Big, bold, centered, uppercase text (h1). No title/subtitle                             |
+| `content`          | Standard content slide. Left-aligned with h1 title and h2 subtitle                      |
+| `centered-content` | Like `content` but centered. Good for diagrams or single images                         |
+| `centered-images`  | Like `content` with images in horizontal rows. Uses h1/h2 for title/subtitle            |
+| `blank`            | No title/subtitle. Content is centered. Good for standalone code, text, or images       |
+| `blank-images`     | Like `blank` with images laid out horizontally                                          |
+| `speaker`          | Two-column speaker/about-me slide. Photo, name, and title on left; bio content on right |
 
 #### Color Classes
 
@@ -159,6 +160,27 @@ console.log(message)
 ```
 
 Images on the same line (no blank line between them) form a single row. A blank line starts a new row.
+
+**Speaker slide:**
+
+```markdown
+<!-- _class: speaker dark -->
+
+![](headshot.jpg)
+
+# Speaker Name
+
+## Job Title, Company
+
+# Talk Title
+
+Some background info about the speaker.
+
+- ![h:50 w:50](icon.png) @handle
+- ![h:50 w:50](icon.png) username
+```
+
+The first image is the headshot (left column). The first h1 is the speaker name (with a colored bullet). The first h2 is the title. Everything after the first h2 flows into the right column.
 
 ### Background Images
 
