@@ -54,6 +54,11 @@ section :is(h3, h4, p, ul, ol, pre, blockquote, table) {
   margin: 8px 0;
 }
 
+section :is(h1, h2, h3, h4, p, ul, ol, pre, blockquote, table) img {
+  margin: 0;
+  vertical-align: middle;
+}
+
 section h1 {
   font-size: 44px;
   font-weight: 500;
@@ -93,17 +98,6 @@ section::before {
 
 section.no-logo::before {
   display: none;
-}
-
-/* ---- Inline images ---- */
-
-section :is(p, h1, h2, h3, h4, li) {
-  display: flex;
-  align-items: center;
-}
-
-section :is(p, h1, h2, h3, h4, li) img {
-  padding: 0 10px;
 }
 
 /* ---- Code blocks ---- */
@@ -475,7 +469,6 @@ section.speaker h1:first-of-type {
   padding-left: 30px;
   padding-bottom: 20px;
   position: relative;
-  display: block;
 }
 
 section.speaker h1:first-of-type::before {

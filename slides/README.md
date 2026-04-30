@@ -21,7 +21,7 @@ Opens a local server that serves the slides and refreshes when you make changes.
 **Export to PDF:**
 
 ```bash
-npm run build
+npm run build -- ai-news-agent-workshop.md
 ```
 
 Generates a PDF in the current directory.
