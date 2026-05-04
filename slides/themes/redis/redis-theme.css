@@ -100,6 +100,37 @@ section.no-logo::before {
   display: none;
 }
 
+/* ---- Tables ---- */
+
+section table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+section table th {
+  font-weight: 600;
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 0.85em;
+  letter-spacing: 0.05em;
+  padding: 10px 16px;
+  border-bottom: 2px solid var(--redis-sky-blue);
+}
+
+section table td {
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+section.light table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+section table tr:last-child td {
+  border-bottom: none;
+}
+
 /* ---- Code blocks ---- */
 
 section pre {
@@ -113,6 +144,7 @@ section pre code {
   color: var(--redis-dusk-10);
   white-space: pre-wrap;
   word-wrap: break-word;
+  font-size: 18px;
 }
 
 section code {
