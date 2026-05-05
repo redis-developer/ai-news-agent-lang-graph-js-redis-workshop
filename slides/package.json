@@ -6,7 +6,7 @@
   "license": "CC-BY-4.0",
   "private": true,
   "scripts": {
-    "build": "marp --theme themes/redis/redis-theme.css --allow-local-files --pdf",
+    "build": "marp --theme themes/redis/redis-theme.css --allow-local-files --pdf ai-news-agent-workshop.md",
     "start": "PORT=3333 marp --theme themes/redis/redis-theme.css --server ."
   },
   "devDependencies": {
