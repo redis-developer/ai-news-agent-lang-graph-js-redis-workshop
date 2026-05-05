@@ -14,23 +14,14 @@ style: |
   }
 ---
 
+<!-- SECTION: Introduction & Setup -->
+<!-- ============================= -->
+
 <!-- _class: title hyper -->
 
 # Build your own AI news agent
 
 ## with Redis + LangGraph.js
-
-- Guy Royse
-
----
-
-<!-- _class: speaker dark -->
-
-![](images/guy-royse.jpg)
-
-# Guy Royse
-
-## Senior Developer Advocate, Redis
 
 ---
 
@@ -51,12 +42,6 @@ style: |
 ![h:30 w:30](images/logos/bluesky-yellow.svg) @guy.dev
 
 ![h:30 w:30](images/icons/link-yellow.svg) guy.dev
-
----
-
-<!-- _class: blank dark no-logo -->
-
-![bg brightness:0.65](images/backgrounds/small-world.jpg)
 
 ---
 
@@ -155,14 +140,16 @@ Custom Annotations
 
 <!-- _class: content dark -->
 
-# Four workflows
+# Four components
 
 ## From raw feeds to personalized briefs
 
-1. **Ingest** — Process RSS feeds into enriched articles
-2. **Search** — Find articles by topic, entity, or meaning
-3. **Chat** — Converse about the news with memory
-4. **Brief** — Generate personalized news summaries
+|     | Name      | What we're building                                                   |
+| :-: | :-------- | :-------------------------------------------------------------------- |
+|  1  | Ingestion | Process RSS feeds into enriched articles and store them in Redis      |
+|  2  | Search    | Search articles by topic, entity, and meaning with Redis Search       |
+|  3  | Chat      | Converse about the news and extract memories with Agent Memory Server |
+|  4  | Brief     | Generate personalized news briefs                                     |
 
 ---
 
@@ -198,7 +185,7 @@ Custom Annotations
 
 ## Scan the QR code
 
-![w:175](images/virtual-env-signup-qr-code.png)
+![w:175](images/qr-codes/virtual-env-signup-qr-code.png)
 
 &nbsp;
 
@@ -215,7 +202,7 @@ You'll be emailed a link to your environment so don't lie.
 
 ## Clone this if you're using Docker
 
-![w:175](images/workshop-repo-qr-code.png)
+![w:175](images/qr-codes/workshop-repo-qr-code.png)
 
 &nbsp;
 
@@ -235,7 +222,7 @@ $ docker compose up -d
 
 ## If you get stuck...
 
-![w:175](images/solution-repo-qr-code.png)
+![w:175](images/qr-codes/solution-repo-qr-code.png)
 
 &nbsp;
 
@@ -254,13 +241,13 @@ $ docker compose up -d
 
 <!-- _class: hero hyper -->
 
-# Stage 1: Feed Ingestion
+# Stage 1: Feed ingestion
 
 ---
 
 <!-- _class: content dark -->
 
-# What We're Building
+# What we're building
 
 ## An ingestion pipeline
 
@@ -274,25 +261,23 @@ $ docker compose up -d
 
 <!-- _class: centered-content dark -->
 
-# The Final Graph
+# The final graph
 
 ## What you'll build by the end of Stage 1
 
-<!-- TODO: Replace with diagram image of the full ingestion graph -->
-
-![w:800](https://picsum.photos/800/300)
+![w:1000](images/diagrams/ingestion-workflow.svg)
 
 ---
 
 <!-- _class: hero dark -->
 
-# LangGraph.js Basics
+# LangGraph.js basics
 
 ---
 
 <!-- _class: content dark -->
 
-# How LangGraph.js Works
+# How LangGraph.js works
 
 ## Four steps to every workflow
 
@@ -315,9 +300,9 @@ $ docker compose up -d
 
 ## START → text-extractor → END
 
-<!-- TODO: Replace with diagram -->
+&nbsp;
 
-![w:600](https://picsum.photos/600/200)
+![w:400](images/diagrams/simplest-graph.svg)
 
 ---
 
@@ -352,6 +337,7 @@ async function textExtractor(state: ArticleState): Promise<Partial<ArticleState>
 
   const text = extractTextFromHtml(feedItem.html)
   const prompt = buildPrompt(text)
+  const llm = fetchLLM()
   const response = await llm.invoke(prompt)
 
   return { content: response.content as string }
@@ -360,6 +346,24 @@ async function textExtractor(state: ArticleState): Promise<Partial<ArticleState>
 
 - Takes full state in, returns partial state out
 - LangGraph.js merges the return into shared state
+
+---
+
+<!-- _class: content dark -->
+
+# Fetching the LLM
+
+## Using LangChain.js
+
+```typescript
+export function fetchLLM(): ChatOpenAI {
+  return new ChatOpenAI({
+    modelName: 'gpt-4o-mini',
+    temperature: 0.3,
+    apiKey: OPENAI_API_KEY
+  })
+}
+```
 
 ---
 
@@ -415,9 +419,9 @@ console.log(finalState.article)
 
 ## START → text-extractor → summarizer → END
 
-<!-- TODO: Replace with diagram -->
+&nbsp;
 
-![w:700](https://picsum.photos/700/200)
+![w:600](images/diagrams/multi-node-graph.svg)
 
 ---
 
@@ -432,6 +436,7 @@ async function summarizer(state: ArticleState): Promise<Partial<ArticleState>> {
   const { content } = state
 
   const prompt = buildPrompt(content)
+  const llm = fetchLLM()
   const response = await llm.invoke(prompt)
 
   return { summary: response.content as string }
@@ -465,85 +470,6 @@ graph.addEdge('summarizer', END)
 
 <!-- _class: hero dark -->
 
-# Structured output
-
----
-
-<!-- _class: content dark -->
-
-# The problem with unstructured text
-
-## LLMs return strings — but you need data
-
-- "The topics are Technology, AI, and Business" — now what?
-- Parse it? Regex? Hope for the best?
-- What if the LLM changes its formatting?
-
----
-
-<!-- _class: content dark -->
-
-# Structured output
-
-## Get validated JSON back from the LLM
-
-Define a schema with Zod:
-
-```typescript
-const topicsSchema = z.object({
-  topics: z.array(z.string()).describe('Broad topics for the article')
-})
-```
-
-- `.describe()` tells the LLM what each field means
-- Must be an object at the top level
-
----
-
-<!-- _class: content dark -->
-
-# Using structured output
-
-## Chain `.withStructuredOutput()` onto the LLM
-
-```typescript
-const llm = fetchLLM().withStructuredOutput(topicsSchema)
-const result = await llm.invoke(prompt)
-
-// result is { topics: string[] } — parsed and validated
-result.topics // ["Technology", "Artificial Intelligence"]
-```
-
-- No parsing, no regex, no guessing
-- The prompt describes _what_ to extract
-- The schema describes the _shape_ of the response
-
----
-
-<!-- _class: content dark -->
-
-# The topic classifier node
-
-## Structured output in action
-
-```typescript
-async function topicClassifier(state: ArticleState): Promise<Partial<ArticleState>> {
-  const { feedItem, content } = state
-
-  const prompt = buildPrompt(feedItem.title, content)
-  const result = await llm.invoke(prompt)
-
-  return { topics: result.topics }
-}
-```
-
-- `llm` was created with `.withStructuredOutput(topicsSchema)`
-- `result` is already `{ topics: string[] }` — no parsing needed
-
----
-
-<!-- _class: hero dark -->
-
 # Fan-out: Parallel processing
 
 ---
@@ -554,9 +480,7 @@ async function topicClassifier(state: ArticleState): Promise<Partial<ArticleStat
 
 ## Summarizer, topic classifier, entity extractor — all at once
 
-<!-- TODO: Replace with fan-out diagram -->
-
-![w:800](https://picsum.photos/800/300)
+![w:600](images/diagrams/fan-out-graph.svg)
 
 ---
 
@@ -580,26 +504,114 @@ graph.addEdge('text-extractor', 'entity-extractor')
 ...
 ```
 
-- Runs all three nodes **in parallel**
+---
+
+<!-- _class: content dark -->
+
+# Unstructured output
+
+## LLMs return strings — but you need data
+
+"The topics are Technology, AI, and Business"
+
+"The named entities are Mark Zuckerberg, Apple, and San Francisco"
+
+&nbsp;
+
+What do you do?
+
+- Give the LLM really explicit instructions?
+- Parse it? Regex? Hope for the best?
+- What if the LLM changes its formatting?
 
 ---
 
 <!-- _class: content dark -->
 
-# State with reducers
+# Structured output
 
-## How parallel writes merge
+Define a schema with Zod:
 
 ```typescript
-topics: Annotation<string[]>({
-  default: () => [],
-  reducer: (prev, next) => [...prev, ...next]
+const topicsSchema = z.object({
+  topics: z.array(z.string()).describe('Broad topics for the article')
 })
 ```
 
-- **`default`** — initial value
-- **`reducer`** — how to merge (concatenate arrays)
-- Without a reducer, last write wins
+Tell the LLM to use that schema:
+
+```typescript
+const llm = fetchLLM().withStructuredOutput(topicsSchema)
+const result = await llm.invoke(prompt)
+```
+
+Get validated JSON back:
+
+```json
+{ "topics": ["Technology", "Artificial Intelligence"] }
+```
+
+No parsing, no regex, no guessing
+
+---
+
+<!-- _class: content dark -->
+
+# The topic classifier node
+
+## Structured output in action
+
+```typescript
+async function topicClassifier(state: ArticleState): Promise<Partial<ArticleState>> {
+  const { feedItem, content } = state
+
+  const prompt = buildPrompt(feedItem.title, content)
+  const llm = fetchLLM().withStructuredOutput(topicsSchema)
+  const result = await llm.invoke(prompt)
+
+  return { topics: result.topics }
+}
+```
+
+---
+
+<!-- _class: content dark -->
+
+# State for parallel branches
+
+## Replacing state
+
+```typescript
+export const ArticleAnnotation = Annotation.Root({
+  content: Annotation<string>({
+    default: () => ''
+    reducer: (prev, next) => next
+  })
+})
+```
+
+- **`default`** — provides an initial value
+- **`reducer`** — replaces existing data
+
+---
+
+<!-- _class: content dark -->
+
+# State for parallel branches
+
+## Merging state
+
+```typescript
+export const ArticleAnnotation = Annotation.Root({
+  topics: Annotation<string[]>({
+    default: () => [],
+    reducer: (prev, next) => [...prev, ...next]
+  })
+})
+```
+
+- **`default`** — starts as an empty array
+- **`reducer`** — concatenates arrays
 
 ---
 
@@ -620,9 +632,17 @@ topics: Annotation<string[]>({
 - Nearby points have similar meanings
 - Farther away points have dissimilar meanings
 
-<!-- TODO: Replace with vector space diagram showing clustered points -->
+## ![bg w:600 right:50%](images/diagrams/vector-space-diagram.svg)
 
-## ![bg right:50%](https://picsum.photos/700/400)
+---
+
+<!-- _class: centered-content dark -->
+
+# Embedding the summary
+
+## START → text-extractor → summarizer → embedder → END
+
+![w:800](images/diagrams/embeddding-graph.svg)
 
 ---
 
@@ -630,20 +650,36 @@ topics: Annotation<string[]>({
 
 # The embedder node
 
-## Same pattern but no LLM
+## Same pattern but uses an embedding model
 
 ```typescript
 async function embedder(state: ArticleState): Promise<Partial<ArticleState>> {
   const { feedItem, summary } = state
 
   const textToEmbed = `${feedItem.title}\n\n${summary}`
+  const embeddingModel = fetchEmbedder()
   const embedding = await embeddingModel.embedQuery(textToEmbed)
 
   return { embedding }
 }
 ```
 
-- Uses an **embedding model**, not a chat LLM
+---
+
+<!-- _class: content dark -->
+
+# Fetching the embedding model
+
+## Using LangChain.js
+
+```typescript
+export function fetchEmbedder(): OpenAIEmbeddings {
+  return new OpenAIEmbeddings({
+    modelName: 'text-embedding-3-small',
+    apiKey: OPENAI_API_KEY
+  })
+}
+```
 
 ---
 
@@ -659,9 +695,7 @@ async function embedder(state: ArticleState): Promise<Partial<ArticleState>> {
 
 ## Wait for all branches, then combine
 
-<!-- TODO: Replace with full fan-in diagram -->
-
-![w:800](https://picsum.photos/800/300)
+![w:1000](images/diagrams/fan-in-graph.svg)
 
 ---
 
@@ -909,9 +943,7 @@ const result = await redis.ft.search(INDEX_NAME, query, options)
 
 ## Find articles by meaning, not keywords
 
-<!-- TODO: Replace with vector space diagram -->
-
-![w:600](https://picsum.photos/600/400)
+![w:400](images/diagrams/vector-space-diagram.svg)
 
 ---
 
@@ -921,7 +953,8 @@ const result = await redis.ft.search(INDEX_NAME, query, options)
 
 ```typescript
 // Embed the user's query
-const embedding = await embedder.embedQuery(query)
+const embeddingModel = fetchEmbedder()
+const embedding = await embeddingModel.embedQuery(query)
 const vectorBuffer = Buffer.from(new Float32Array(embedding).buffer)
 
 // Combine structured + vector search
@@ -957,25 +990,19 @@ const result = await redis.ft.search(INDEX_NAME, query, options)
 
 <!-- _class: centered-content dark -->
 
-# The Chatbot Graph
+# The Chatbot workflow
 
-## Three nodes in a line
+## Each node has a specific job
 
-<!-- TODO: Replace with chatbot graph diagram -->
+![w:900](images/diagrams/chatbot-workflow.svg)
 
-![w:800](https://picsum.photos/800/200)
+&nbsp;
 
----
-
-<!-- _class: content dark -->
-
-# The three nodes
-
-## Each has a specific job
-
-- **prompt-enricher** — Fetch memories, build the prompt
-- **tool-using-responder** — ReAct agent with search tool
-- **memory-saver** — Save the exchange to AMS
+| Node                     | What it does                     |
+| :----------------------- | :------------------------------- |
+| **prompt-enricher**      | Fetch memories, build the prompt |
+| **tool-using-responder** | ReAct agent with search tool     |
+| **memory-saver**         | Save the exchange to AMS         |
 
 ---
 
@@ -992,14 +1019,26 @@ const result = await redis.ft.search(INDEX_NAME, query, options)
 ## Reasoning + acting
 
 1. **Reason** — What's being asked? What do I know?
-2. **Act** — Call a tool to get new information
+2. **Act** — Call a specialized agent to get new information
 3. **Observe** — Read the result
 4. **Repeat** — Until satisfied
-5. **Respond** — Generate the final answer
 
-![bg right:50%](https://picsum.photos/600/250)
+![bg h:400 right:40%](images/diagrams/react-loop-diagram.svg)
 
-<!-- TODO: Replace with ReAct loop diagram -->
+---
+
+<!-- _class: content dark -->
+
+# The ReAct pattern
+
+## Calling tools
+
+1. **Reason** — What's being asked? What do I know?
+2. **Act** — Call an agent with a tool to do something
+3. **Observe** — Read the result
+4. **Repeat** — Until satisfied
+
+![bg h:500 left:40%](images/diagrams/react-loop-tool-call-diagram.svg)
 
 ---
 
@@ -1010,6 +1049,8 @@ const result = await redis.ft.search(INDEX_NAME, query, options)
 ## A function the LLM can call
 
 ```typescript
+function searchArticles(param): Promise<string> { ... }
+
 const searchArticlesTool = tool(searchArticles, {
   name: 'search_articles',
   description: 'Search for news articles...',
@@ -1021,6 +1062,9 @@ const searchArticlesTool = tool(searchArticles, {
 })
 ```
 
+- Build it with `tool()` from LangChain.js
+- A **schema** defines the parameters
+
 ---
 
 <!-- _class: content dark -->
@@ -1030,10 +1074,10 @@ const searchArticlesTool = tool(searchArticles, {
 ## Builds the loop for you (but only for tools)
 
 ```typescript
-const llm = fetchLargeLLM()
+const llm = fetchLLM()
 const tools = [searchArticlesTool]
 
-const reactAgent = createReactAgent({
+const toolUsingResponder = createReactAgent({
   llm,
   tools,
   messageModifier: new SystemMessage(buildPrompt())
@@ -1041,7 +1085,29 @@ const reactAgent = createReactAgent({
 ```
 
 - Give it an LLM, tools, and a system message
-- It handles the reason → act → observe loop
+- It handles the ReAct loop
+
+---
+
+<!-- _class: content dark -->
+
+# Adding it to the graph
+
+## A ReAct agent is just another node
+
+```typescript
+graph.addNode('prompt-enricher', promptEnricher)
+graph.addNode('tool-using-responder', toolUsingResponder)
+graph.addNode('memory-saver', memorySaver)
+
+graph.addEdge(START, 'prompt-enricher')
+graph.addEdge('prompt-enricher', 'tool-using-responder')
+graph.addEdge('tool-using-responder', 'memory-saver')
+graph.addEdge('memory-saver', END)
+```
+
+- The `toolUsingResponder` node contains the ReAct agent
+- A graph within a graph
 
 ---
 
@@ -1053,20 +1119,23 @@ const reactAgent = createReactAgent({
 
 <!-- _class: content dark -->
 
-# Two types of memory
+# Agent Memory Server basics
 
-## Working memory + long-term memory
+## Two types of memory
 
-### Working wemory
+### Working memory
 
 - Conversation history per session
 - Auto-summarizes when it gets long
 
 ### Long-term memory
 
-- Facts and preferences extracted automatically
+- Facts and preferences
+- Extracted automatically from working memory
 - Persists across sessions
 - Retrieved by semantic similarity
+
+### All stored in Redis
 
 ---
 
@@ -1076,11 +1145,13 @@ const reactAgent = createReactAgent({
 
 ## REST endpoints on Agent Memory Server
 
-```
-GET  /v1/working-memory/{sessionId}    → fetch conversation
-PUT  /v1/working-memory/{sessionId}    → replace conversation
-DELETE /v1/working-memory/{sessionId}  → clear conversation
-```
+| Method     | Endpoint                         | Action               |
+| ---------- | -------------------------------- | -------------------- |
+| **GET**    | `/v1/working-memory/{sessionId}` | Fetch conversation   |
+| **PUT**    | `/v1/working-memory/{sessionId}` | Replace conversation |
+| **DELETE** | `/v1/working-memory/{sessionId}` | Clear conversation   |
+
+&nbsp;
 
 - PUT replaces the **entire** message list — not an append
 - AMS auto-summarizes and extracts long-term memories on PUT
@@ -1094,19 +1165,21 @@ DELETE /v1/working-memory/{sessionId}  → clear conversation
 ## The memory-saver node
 
 ```typescript
-const workingMemory = await fetchWorkingMemory(sessionId)
-const existingMessages = workingMemory?.messages ?? []
+async function memorySaver(state: ChatState): Promise<Partial<ChatState>> {
+  const { sessionId, userMessage, responseMessage } = state
 
-const updatedMessages = [
-  ...existingMessages,
-  { role: 'user', content: userMessage },
-  { role: 'assistant', content: responseMessage }
-]
+  const existingMessages = await fetchWorkingMemory(sessionId)
+  const updatedMessages = [
+    ...existingMessages,
+    { role: 'user', content: userMessage },
+    { role: 'assistant', content: responseMessage }
+  ]
 
-await updateWorkingMemory(sessionId, { messages: updatedMessages })
+  await updateWorkingMemory(sessionId, { messages: updatedMessages })
+
+  return {}
+}
 ```
-
-- Fetch existing messages first, then append and PUT back
 
 ---
 
@@ -1120,32 +1193,63 @@ await updateWorkingMemory(sessionId, { messages: updatedMessages })
 
 # The prompt endpoint
 
-## AMS assembles context for you
+## Agent Memory Server assembles the context for you
 
-`POST /v1/memory/prompt` returns:
+| Method   | Endpoint            | Action             |
+| -------- | ------------------- | ------------------ |
+| **POST** | `/v1/memory/prompt` | Fetch conversation |
 
-1. **System message** — summaries + long-term memories
-2. **Recent messages** — conversation history
-3. **Current message** — the user's latest input
+&nbsp;
+
+Returns a collection of messages:
+
+| Message             | Content                                   |
+| ------------------- | ----------------------------------------- |
+| **System message**  | Conversation summary + long-term memories |
+| **Recent messages** | Conversation history                      |
+| **Current message** | The user's latest input                   |
 
 ---
 
 <!-- _class: content dark -->
 
-# The prompt enricher node
+# Fetch, convert, return
 
-## Fetch, convert, return
+## The prompt enricher node
 
 ```typescript
-const enrichedPrompt = await fetchMemoryPrompt(sessionId, userMessage)
+async function promptEnricher(state: ChatState): Promise<Partial<ChatState>> {
+  const { sessionId, userMessage } = state
 
-const promptMessages = enrichedPrompt.messages.map(msg => {
-  if (msg.role === 'user') return new HumanMessage(text)
-  if (msg.role === 'assistant') return new AIMessage(text)
-  return new SystemMessage(text)
-})
+  const enrichedPrompt = await fetchMemoryPrompt(sessionId, userMessage)
 
-return { promptMessages }
+  const promptMessages = enrichedPrompt.messages.map(msg => {
+    if (msg.role === 'user') return new HumanMessage(text)
+    if (msg.role === 'assistant') return new AIMessage(text)
+    return new SystemMessage(text)
+  })
+
+  return { promptMessages }
+}
+```
+
+---
+
+<!-- _class: content dark -->
+
+# Adding it to the graph
+
+## A ReAct agent is just another node
+
+```typescript
+graph.addNode('prompt-enricher', promptEnricher)
+graph.addNode('tool-using-responder', toolUsingResponder)
+graph.addNode('memory-saver', memorySaver)
+
+graph.addEdge(START, 'prompt-enricher')
+graph.addEdge('prompt-enricher', 'tool-using-responder')
+graph.addEdge('tool-using-responder', 'memory-saver')
+graph.addEdge('memory-saver', END)
 ```
 
 ---
@@ -1165,27 +1269,35 @@ return { promptMessages }
 
 ---
 
-<!-- _class: content dark -->
+<!-- _class: centered-content dark -->
 
 # Bringing it all together
 
-## Parallel fetch, then generate
+## Fetch articles and memories to generate a brief
 
-- **article-fetcher** — Recent articles by date range
-- **memory-fetcher** — Long-term preferences from AMS
-- **brief-generator** — Personalized summary with an LLM
+![w:600](images/diagrams/brief-generator-workflow.svg)
+
+&nbsp;
+
+| Node                | What it does                               |
+| :------------------ | :----------------------------------------- |
+| **article-fetcher** | Fetches recent articles from the database  |
+| **memory-fetcher**  | Retrieves long-term memories from AMS      |
+| **brief-generator** | Generates a personalized brief with an LLM |
 
 ---
 
 <!-- _class: centered-content dark -->
 
-# The brief graph
+# Bringing it all together
 
-## Fan-out from START, fan-in at the generator
+## Fan-out to fetch
 
-<!-- TODO: Replace with brief graph diagram -->
+![w:600](images/diagrams/brief-generator-workflow.svg)
 
-![w:700](https://picsum.photos/700/250)
+&nbsp;
+
+Fan-out from START, fan-in at the generator
 
 ---
 
@@ -1215,10 +1327,17 @@ graph.addEdge('brief-generator', END)
 
 ## The chatbot learns, the brief remembers
 
-- Chat: "I'm interested in climate policy"
-- AMS stores it as a long-term memory
-- Brief fetches it and prioritizes climate articles
-- Two workflows, shared memory, one Redis
+- **Chat**:
+  - "I'm interested in climate policy"
+- **Agent Memory Server**:
+  - Stores it in working memory
+  - Asynchonously promotes it to a long-term memory
+- **Brief generator**:
+  - Fetches memories and prioritizes climate articles
+
+&nbsp;
+
+## Two workflows. Shared memory. One Redis.
 
 ---
 
@@ -1243,10 +1362,12 @@ graph.addEdge('brief-generator', END)
 
 ## From raw feeds to personalized briefs
 
-1. **Ingestion** — RSS → enriched articles in Redis
-2. **Search** — TAG + NUMERIC + VECTOR queries
-3. **Chatbot** — ReAct agent with tools and memory
-4. **Brief** — Personalized summaries via shared memory
+|     | Name      | What we built                            |
+| :-: | :-------- | :--------------------------------------- |
+|  1  | Ingestion | RSS → enriched articles in Redis         |
+|  2  | Search    | TAG + NUMERIC + VECTOR queries           |
+|  3  | Chat      | ReAct agent with tools and memory        |
+|  4  | Brief     | Personalized summaries via shared memory |
 
 All powered by **Redis**, **LangGraph.js**, and **Agent Memory Server**
 
@@ -1256,9 +1377,48 @@ All powered by **Redis**, **LangGraph.js**, and **Agent Memory Server**
 
 # The complete architecture
 
-<!-- TODO: Replace with full architecture diagram -->
+## &nbsp;
 
-![w:900](https://picsum.photos/900/400)
+![w:900](images/diagrams//architecture-diagram.svg)
+
+---
+
+<!-- _class: content dark -->
+
+# Resources
+
+&nbsp;
+
+![bg right:25% w:200](images/qr-codes/workshop-repo-qr-code.png)
+
+|                                                          | Resource            | Link                                                                                                           |
+| -------------------------------------------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------- |
+| ![h:25 w:25](images/logos/github-white.svg)              | Workshop Repo       | [github.com/redis-developer/ai-news-agent-workshop](https://github.com/redis-developer/ai-news-agent-workshop) |
+| ![h:25 w:25](images/logos/langgraph-white.svg)           | LangGraph.js        | [langchain-ai.github.io/langgraphjs](https://langchain-ai.github.io/langgraphjs)                               |
+| ![h:25 w:25](images/icons/agent-memory-server-white.svg) | Agent Memory Server | [redis.github.io/agent-memory-server](redis.github.io/agent-memory-server/)                                    |
+| ![h:25 w:25](images/logos/redis-mark-hyper.svg)          | Redis Cloud         | [redis.io/try-free](https://redis.io/try-free)                                                                 |
+| ![h:25 w:25](images/logos/redis-mark-hyper.svg)          | Redis University    | [university.redis.io](https://university.redis.io)                                                             |
+| ![h:25 w:25](images/logos/discord-white.svg)             | Discord             | [discord.gg/redis](https://discord.gg/redis)                                                                   |
+
+---
+
+<!-- _class: speaker dark -->
+
+![](images/guy-royse.jpg)
+
+# Guy Royse
+
+## Senior Developer Advocate, Redis
+
+## Socials
+
+![h:30 w:30](images/logos/twitter-yellow.svg) @guyroyse
+
+![h:30 w:30](images/logos/github-yellow.svg) github.com/guyroyse
+
+![h:30 w:30](images/logos/bluesky-yellow.svg) @guy.dev
+
+![h:30 w:30](images/icons/link-yellow.svg) guy.dev
 
 ---
 

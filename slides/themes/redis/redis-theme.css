@@ -94,6 +94,21 @@ section::before {
   background-repeat: no-repeat;
 }
 
+/* ---- Links ---- */
+
+section a {
+  color: var(--redis-sky-blue);
+  text-decoration: none;
+}
+
+section a:hover {
+  text-decoration: underline;
+}
+
+section.light a {
+  color: var(--redis-dusk);
+}
+
 /* ---- Utility classes ---- */
 
 section.no-logo::before {
