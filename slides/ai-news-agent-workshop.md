@@ -198,6 +198,24 @@ You'll be emailed a link to your environment so don't lie.
 
 <!-- _class: centered-content dark -->
 
+# Remote virtual environment
+
+## Scan the QR code
+
+![w:175](images/qr-codes/virtual-env-signup-qr-code.png)
+
+&nbsp;
+
+### You can download your code later.
+
+```bash
+tar --exclude='./node_modules' --exclude='./.git' -czf code.tar.gz .
+```
+
+---
+
+<!-- _class: centered-content dark -->
+
 # Local Docker environment
 
 ## Clone this if you're using Docker
